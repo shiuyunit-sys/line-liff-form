@@ -17,8 +17,13 @@
       .then(profile => {
         const uid = profile.userId;
         const formUrl = googleFormBase + encodeURIComponent(uid);
+
         document.getElementById("openForm").onclick = () => {
-          window.open(formUrl, "_blank");
+          alert("按鈕被點擊"); // 測試用
+          liff.openWindow({
+            url: formUrl,
+            external: true // 在外部瀏覽器開啟 Google Form
+          });
         };
       })
       .catch(err => {
