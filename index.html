@@ -5,30 +5,44 @@
   <title>顧客滿意度問卷</title>
   <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
 </head>
-<body style="font-family: sans-serif; text-align: center; padding-top: 60px;">
-  <h2>請點選下方按鈕開始填寫問卷</h2>
-  <button id="openForm" style="padding: 12px 20px; border-radius: 8px; background-color: #00c300; color: white; border: none; font-size: 16px;">填寫問卷</button>
+<body style="text-align:center; padding-top:50px; font-family:sans-serif;">
+  <h2>請點下方按鈕開始填寫問卷</h2>
+  <button id="openForm" style="padding:12px 20px; background:#00c300; color:white; border:none; border-radius:8px; font-size:16px;">填寫問卷</button>
 
   <script>
     const googleFormBase = "https://docs.google.com/forms/d/e/1uaBrA0VsiYlsIVS1xJI2luZH5O2aQ4IGnHGpSDTnEwo/viewform?usp=pp_url&entry.149646131=";
+    const liffId = "2008487393-pyy20Dlq"; // 你的 LIFF ID
 
-    liff.init({ liffId: "2008487393-pyy20Dlq" })
-      .then(() => liff.getProfile())
-      .then(profile => {
-        const uid = profile.userId;
-        const formUrl = googleFormBase + encodeURIComponent(uid);
+    // 初始化 LIFF
+    liff.init({ liffId: liffId })
+      .then(() => {
+        // 等待 LIFF ready
+        if (!liff.isInClient()) {
+          alert("請在 LINE App 內打開此頁面");
+          return;
+        }
 
-        document.getElementById("openForm").onclick = () => {
-          alert("按鈕被點擊"); // 測試用
-          liff.openWindow({
-            url: formUrl,
-            external: true // 在外部瀏覽器開啟 Google Form
+        liff.getProfile()
+          .then(profile => {
+            const uid = profile.userId;
+            const formUrl = googleFormBase + encodeURIComponent(uid);
+
+            // 綁定按鈕事件
+            document.getElementById("openForm").onclick = () => {
+              liff.openWindow({
+                url: formUrl,
+                external: true // 在外部瀏覽器開啟 Google Form
+              });
+            };
+          })
+          .catch(err => {
+            alert("無法取得 LINE UID：" + err);
           });
-        };
       })
       .catch(err => {
-        alert("發生錯誤，請稍後再試：" + err);
+        alert("LIFF 初始化失敗：" + err);
       });
   </script>
 </body>
 </html>
+
