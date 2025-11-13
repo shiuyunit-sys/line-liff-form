@@ -14,35 +14,35 @@
     const liffId = "2008487393-pyy20Dlq"; // 你的 LIFF ID
 
     // 初始化 LIFF
-    liff.init({ liffId: liffId })
-      .then(() => {
-        // 等待 LIFF ready
+    async function main() {
+      try {
+        await liff.init({ liffId: liffId });
+
+        // 確保在 LINE App
         if (!liff.isInClient()) {
           alert("請在 LINE App 內打開此頁面");
           return;
         }
 
-        liff.getProfile()
-          .then(profile => {
-            const uid = profile.userId;
-            const formUrl = googleFormBase + encodeURIComponent(uid);
+        const profile = await liff.getProfile();
+        const uid = profile.userId;
+        const formUrl = googleFormBase + encodeURIComponent(uid);
 
-            // 綁定按鈕事件
-            document.getElementById("openForm").onclick = () => {
-              liff.openWindow({
-                url: formUrl,
-                external: true // 在外部瀏覽器開啟 Google Form
-              });
-            };
-          })
-          .catch(err => {
-            alert("無法取得 LINE UID：" + err);
+        // 綁定按鈕事件
+        const btn = document.getElementById("openForm");
+        btn.addEventListener("click", () => {
+          liff.openWindow({
+            url: formUrl,
+            external: true // 在外部瀏覽器打開 Google Form
           });
-      })
-      .catch(err => {
-        alert("LIFF 初始化失敗：" + err);
-      });
+        });
+
+      } catch (err) {
+        alert("發生錯誤：" + err);
+      }
+    }
+
+    main();
   </script>
 </body>
 </html>
-
