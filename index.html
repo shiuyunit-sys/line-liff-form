@@ -13,7 +13,6 @@
     const googleFormBase = "https://docs.google.com/forms/d/e/1FAIpQLSc6qtF1Xo9xr48p98b1k3W7PNxotQK4bO7Xkl411IKWL5YMiA/viewform?usp=pp_url&entry.149646131=";
     const liffId = "2001230327-l7YbvL9o"; // 你的 LIFF ID
 
-    // 初始化 LIFF
     async function main() {
       try {
         await liff.init({ liffId: liffId });
@@ -26,11 +25,11 @@
 
         const profile = await liff.getProfile();
         const uid = profile.userId;
-        const formUrl = googleFormBase + encodeURIComponent(uid);
 
         // 綁定按鈕事件
         const btn = document.getElementById("openForm");
         btn.addEventListener("click", () => {
+          const formUrl = googleFormBase + encodeURIComponent(uid); // 點按時才生成完整 URL
           liff.openWindow({
             url: formUrl,
             external: true // 在外部瀏覽器打開 Google Form
@@ -46,3 +45,4 @@
   </script>
 </body>
 </html>
+
