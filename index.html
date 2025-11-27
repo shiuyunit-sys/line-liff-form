@@ -10,13 +10,12 @@
   <button id="openForm" style="padding:12px 20px; background:#00c300; color:white; border:none; border-radius:8px; font-size:16px;">填寫問卷V1</button>
 
   <script>
-    const googleFormBase = "https://docs.google.com/forms/d/e/1FAIpQLSc6qtF1Xo9xr48p98b1k3W7PNxotQK4bO7Xkl411IKWL5YMiA/viewform/viewform?uid=";
+    const googleFormBase = "https://docs.google.com/forms/d/e/1FAIpQLSc6qtF1Xo9xr48p98b1k3W7PNxotQK4bO7Xkl411IKWL5YMiA/viewform?usp=pp_url&entry.149646131=";
     const liffId = "2001230327-l7YbvL9o"; // 你的 LIFF ID
     const apiUrl = "https://script.google.com/macros/s/AKfycbwzyRXBBJHJ0LwV2m7dMsy43kLzoj-QtfNQShYGcnifB8jkxbZulVoin3siEsaunYD5/exec";
      async function main() {
       try {
-        await liff.init({ liffId });
-
+        await liff.init({ liffId: liffId });
         if (!liff.isInClient()) {
           alert("請在 LINE App 內打開此頁面");
           return;
@@ -30,35 +29,25 @@
           btn.disabled = true;
           btn.textContent = "正在檢查是否已填寫…";
 
-          // 呼叫 Apps Script 檢查 UID
-          const resp = await fetch(apiUrl + "?uid=" + encodeURIComponent(uid));
-          const data = await resp.json();
+          // 檢查 UID 是否已填寫
+          const res = await fetch(apiUrl + "?uid=" + encodeURIComponent(uid));
+          const data = await res.json();
 
-          if (data.status === "DUPLICATE") {
-            alert("您已填寫過問卷，無法再次填寫。");
-            btn.disabled = false;
-            btn.textContent = "填寫問卷";
-            return;
+          if (data.filled) {
+            alert("您已填寫過問卷，無法再次填寫");
+            btn.textContent = "已填寫";
+          } else {
+            // 開啟 Google Form 並帶入 UID
+            const formUrl = googleFormBase + encodeURIComponent(uid);
+            liff.openWindow({ url: formUrl, external: true });
           }
-
-          // 未填寫 → 開啟 Google Form
-          const formUrl = googleFormBase + encodeURIComponent(uid);
-          btn.textContent = "正在開啟問卷…";
-
-          liff.openWindow({
-            url: formUrl,
-            external: true
-          });
         });
-
-      } catch(err) {
+      } catch (err) {
         alert("發生錯誤：" + err);
       }
     }
-
     main();
   </script>
 </body>
 </html>
-
 
