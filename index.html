@@ -7,45 +7,47 @@
 </head>
 <body style="text-align:center; padding-top:50px; font-family:sans-serif;">
   <h2>您好，感謝您今天到店體驗！請點選下方連結填寫顧客滿意度問卷，完成後可獲得 20 元折價券：</h2>
-  <button id="openForm" style="padding:12px 20px; background:#00c300; color:white; border:none; border-radius:8px; font-size:16px;">填寫問卷V2</button>
+  <button id="openForm" style="padding:12px 20px; background:#00c300; color:white; border:none; border-radius:8px; font-size:16px;">填寫問卷V</button>
 
   <script>
-    const googleFormBase = "https://docs.google.com/forms/d/e/1FAIpQLSc6qtF1Xo9xr48p98b1k3W7PNxotQK4bO7Xkl411IKWL5YMiA/viewform?usp=pp_url&entry.149646131=";
+    //const googleFormBase = "https://docs.google.com/forms/d/e/1FAIpQLSc6qtF1Xo9xr48p98b1k3W7PNxotQK4bO7Xkl411IKWL5YMiA/viewform?usp=pp_url&entry.149646131=";//
     const liffId = "2001230327-l7YbvL9o"; // 你的 LIFF ID
     const apiUrl = "https://script.google.com/macros/s/AKfycbwzyRXBBJHJ0LwV2m7dMsy43kLzoj-QtfNQShYGcnifB8jkxbZulVoin3siEsaunYD5/exec";
      async function main() {
-      try {
-        await liff.init({ liffId: liffId });
-        if (!liff.isInClient()) {
-          alert("請在 LINE App 內打開此頁面");
-          return;
-        }
+      await liff.init({ liffId });
 
-        const profile = await liff.getProfile();
-        const uid = profile.userId;
+      if (!liff.isInClient()) {
+        alert("請在 LINE App 內打開此頁面");
+        return;
+      }
 
-        const btn = document.getElementById("openForm");
-        btn.addEventListener("click", async () => {
-          btn.disabled = true;
-          btn.textContent = "正在檢查是否已填寫…";
+      const profile = await liff.getProfile();
+      const uid = profile.userId;
 
-          // 檢查 UID 是否已填寫
-          const res = await fetch(apiUrl + "?uid=" + encodeURIComponent(uid));
+      const btn = document.getElementById("openForm");
+      btn.addEventListener("click", async () => {
+        btn.disabled = true;
+        btn.textContent = "正在檢查是否已填寫…";
+
+        try {
+          const res = await fetch(`${webAppUrl}?uid=${encodeURIComponent(uid)}`);
           const data = await res.json();
 
           if (data.filled) {
-            alert("您已填寫過問卷，無法再次填寫");
+            alert("您已填寫過問卷，無法再次提交。");
             btn.textContent = "已填寫";
           } else {
-            // 開啟 Google Form 並帶入 UID
-            const formUrl = googleFormBase + encodeURIComponent(uid);
-            liff.openWindow({ url: formUrl, external: true });
+            liff.openWindow({ url: data.formUrl, external: true });
+            btn.textContent = "跳轉問卷…";
           }
-        });
-      } catch (err) {
-        alert("發生錯誤：" + err);
-      }
+        } catch (err) {
+          alert("發生錯誤：" + err);
+          btn.disabled = false;
+          btn.textContent = "填寫問卷";
+        }
+      });
     }
+
     main();
   </script>
 </body>
