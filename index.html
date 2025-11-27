@@ -12,10 +12,10 @@
   <script>
     const googleFormBase = "https://docs.google.com/forms/d/e/1FAIpQLSc6qtF1Xo9xr48p98b1k3W7PNxotQK4bO7Xkl411IKWL5YMiA/viewform/viewform?uid=";
     const liffId = "2001230327-l7YbvL9o"; // 你的 LIFF ID
-
-    async function main() {
+    const apiUrl = "https://script.google.com/macros/s/AKfycbwzyRXBBJHJ0LwV2m7dMsy43kLzoj-QtfNQShYGcnifB8jkxbZulVoin3siEsaunYD5/exec";
+     async function main() {
       try {
-        await liff.init({ liffId: liffId });
+        await liff.init({ liffId });
 
         if (!liff.isInClient()) {
           alert("請在 LINE App 內打開此頁面");
@@ -26,20 +26,32 @@
         const uid = profile.userId;
 
         const btn = document.getElementById("openForm");
-        btn.addEventListener("click", () => {
-          // 禁用按鈕避免重複點擊
+        btn.addEventListener("click", async () => {
           btn.disabled = true;
-          btn.textContent = "正在跳轉問卷…";
+          btn.textContent = "正在檢查是否已填寫…";
 
-          // 組成帶 UID 的 Google Form URL
+          // 呼叫 Apps Script 檢查 UID
+          const resp = await fetch(apiUrl + "?uid=" + encodeURIComponent(uid));
+          const data = await resp.json();
+
+          if (data.status === "DUPLICATE") {
+            alert("您已填寫過問卷，無法再次填寫。");
+            btn.disabled = false;
+            btn.textContent = "填寫問卷";
+            return;
+          }
+
+          // 未填寫 → 開啟 Google Form
           const formUrl = googleFormBase + encodeURIComponent(uid);
+          btn.textContent = "正在開啟問卷…";
+
           liff.openWindow({
             url: formUrl,
             external: true
           });
         });
 
-      } catch (err) {
+      } catch(err) {
         alert("發生錯誤：" + err);
       }
     }
