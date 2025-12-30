@@ -4,9 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>顧客滿意度問卷</title>
+
   <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+
   <style>
-    /* --- 全域樣式 --- */
     :root{
       --bg:#f6f7fb;
       --card:#ffffff;
@@ -14,287 +15,255 @@
       --muted:#667085;
       --success:#0f9d58;
       --radius:14px;
-      --glass: rgba(255,255,255,0.75);
-      font-family: "Noto Sans TC", "Microsoft JhengHei", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      font-family:"Noto Sans TC","Microsoft JhengHei",system-ui;
     }
 
     html,body{
-      height:100%;
       margin:0;
-      background: linear-gradient(180deg, #eef2ff 0%, var(--bg) 100%);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
+      background:linear-gradient(180deg,#eef2ff 0%,var(--bg) 100%);
     }
 
     .wrap{
-      min-height:100%;
+      min-height:100vh;
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:28px;
-      box-sizing:border-box;
+      padding:24px;
     }
 
     .card{
       width:100%;
       max-width:560px;
-      background:var(--card);
-      border-radius:var(--radius);
-      box-shadow:0 10px 30px rgba(16,24,40,0.08);
-      padding:28px;
-      box-sizing:border-box;
-      backdrop-filter: blur(6px);
-      border: 1px solid rgba(16,24,40,0.04);
+      background:#fff;
+      border-radius:14px;
+      box-shadow:0 10px 30px rgba(16,24,40,.08);
+      padding:24px;
     }
 
-    h1{font-size:20px;margin:0 0 8px;color:#0f172a}
+    h1{margin:0 0 6px;font-size:20px}
     p.lead{margin:0 0 18px;color:var(--muted);font-size:14px}
 
     form{display:flex;flex-direction:column;gap:18px}
 
-    .field{
-      display:flex;flex-direction:column;gap:8px;
-    }
+    .field{display:flex;flex-direction:column;gap:8px}
+    label.question{font-weight:600;font-size:14px}
 
-    label.question{
-      font-weight:600;color:#0f172a;font-size:14px;
-    }
-
-    /* 選項容器 */
     .options{display:flex;gap:10px;flex-wrap:wrap}
 
-    .option{
-      display:inline-flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;border:1px solid rgba(16,24,40,0.06);background:var(--glass);cursor:pointer;user-select:none;transition:all .18s ease;
+    textarea,select,input[type="date"]{
+      padding:10px;
+      border-radius:8px;
+      border:1px solid rgba(0,0,0,.15);
+      font-size:14px;
     }
 
-    .option input{appearance:none;display:inline-block;width:18px;height:18px;border-radius:6px;border:2px solid rgba(16,24,40,0.12);background:transparent}
-    .option input:checked{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 4px rgba(0,87,184,0.08)}
+    .btn{
+      padding:12px;
+      border-radius:10px;
+      border:none;
+      background:var(--accent);
+      color:#fff;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    .btn[disabled]{opacity:.6}
 
     .note{font-size:12px;color:var(--muted)}
 
-    .btn{
-      display:inline-flex;align-items:center;justify-content:center;padding:12px 16px;border-radius:10px;border:0;background:var(--accent);color:#fff;font-weight:700;cursor:pointer;font-size:14px;transition:transform .12s ease;
+    .done{
+      display:none;
+      text-align:center;
+      padding:18px;
+      border-radius:12px;
+      border:1px solid rgba(15,157,88,.25);
+      background:rgba(15,157,88,.06);
     }
-    .btn:active{transform:translateY(1px)}
-    .btn[disabled]{opacity:.6;cursor:default}
 
-    .status{display:flex;align-items:center;gap:10px;color:var(--muted)}
-
-    /* 已填寫區塊 */
-    .done{display:none;text-align:center;padding:18px;border-radius:12px;background:linear-gradient(180deg,rgba(15,157,88,0.06),transparent);border:1px solid rgba(15,157,88,0.12)}
-    .done h3{color:var(--success);margin:0}
-
-    /* 響應 */
-    @media (max-width:480px){
-      .card{padding:18px;border-radius:12px}
-      .option{padding:10px}
-    }
+    .done h3{margin:0;color:var(--success)}
   </style>
 </head>
 
 <body>
 
 <div class="wrap">
-  <div class="card" role="region" aria-labelledby="title">
-    <h1 id="title">顧客滿意度問卷</h1>
+  <div class="card">
+
+    <h1>顧客滿意度問卷</h1>
     <p class="lead">請花 1 分鐘回答幾個問題，您的回饋對我們很重要。</p>
 
-    <div id="status" class="status">正在載入...</div>
+    <div id="status">正在載入...</div>
 
-    <!-- 問卷區 -->
+    <!-- 已填寫 -->
+    <div id="doneArea" class="done">
+      <h3>您已填寫過此問卷，感謝您的回饋！</h3>
+    </div>
+
+    <!-- 問卷 -->
     <div id="surveyArea" style="display:none;">
       <form id="surveyForm">
-        <input type="hidden" name="UID" id="UID">
-　　<h3>一、基本資料</h3>
 
-    <div class="field">
-      <label class="question">1. 您的性別：</label>
-      <select name="gender" required>
-        <option value="">請選擇</option>
-        <option value="男">男</option>
-        <option value="女">女</option>
-        <option value="不便透露">不便透露</option>
-      </select>
-    </div>
-    <div class="field">
-      <label class="question">2. 您的年齡</label>
-      <select name="ageRange" required>
-        <option value="">請選擇</option>
-        <option value="20歲以下">20歲以下</option>
-        <option value="21-30歲">21–30歲</option>
-        <option value="31-40歲">31–40歲</option>
-        <option value="41-50歲">41–50歲</option>
-        <option value="51歲以上">51歲以上</option>
-      </select>
-    </div>
-    <div class="field">
-       <label class="question">3. 本次消費的門市：</label>
-      <select name="store" required>
-        <option value="">請選擇門市</option>
-        <option value="門市1">西區</option>
-        <option value="門市2">大里</option>
-        <option value="門市3">斗六</option>
-        <option value="門市4">大埔</option>
-        <option value="門市5">漢口</option>
-        <option value="門市6">太平</option>
-        <option value="門市7">松竹</option>
-        <option value="門市8">東山</option>
-        <option value="門市9">員林</option>
-        <option value="門市10">美村南</option>
-        <option value="門市11">烏日</option>
-        <option value="門市12">北平</option>
-        <option value="門市13">黎明</option>
-        <option value="門市14">精誠</option>
-        <option value="門市15">精武東</option>
-        <option value="門市16">大雅</option>
-        <!-- 依序填入16家門市 -->
-      </select>
-     <div class="field">
-      <label class="question">4. 本次消費日期：</label>
-      <input type="date" name="purchaseDate" required>
-    </div>
-    <h3>二、門市人員服務流程滿意度</h3>
+        <input type="hidden" name="UID" id="UID">
+
+        <h3>一、基本資料</h3>
+
         <div class="field">
-          <label class="question">一、整體滿意度<br>對於門市消費體驗，您的整體滿意度是？</label>
-            <div class="options">
-              <label><input type="radio" name="overallScore" value="1" required> 1</label>
-              <label><input type="radio" name="overallScore" value="2"> 2</label>
-              <label><input type="radio" name="overallScore" value="3"> 3</label>
-              <label><input type="radio" name="overallScore" value="4"> 4</label>
-              <label><input type="radio" name="overallScore" value="5"> 5</label>
-           </div>
+          <label class="question">1. 您的性別</label>
+          <select name="gender" required>
+            <option value="">請選擇</option>
+            <option>男</option>
+            <option>女</option>
+            <option>不便透露</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="question">2. 您的年齡</label>
+          <select name="ageRange" required>
+            <option value="">請選擇</option>
+            <option>20歲以下</option>
+            <option>21–30歲</option>
+            <option>31–40歲</option>
+            <option>41–50歲</option>
+            <option>51歲以上</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="question">3. 本次消費的門市</label>
+          <select name="store" required>
+            <option value="">請選擇</option>
+            <option>西區</option><option>大里</option><option>斗六</option>
+            <option>大埔</option><option>漢口</option><option>太平</option>
+            <option>松竹</option><option>東山</option><option>員林</option>
+            <option>美村南</option><option>烏日</option><option>北平</option>
+            <option>黎明</option><option>精誠</option><option>精武東</option>
+            <option>大雅</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="question">4. 本次消費日期</label>
+          <input type="date" name="purchaseDate" required>
+        </div>
+
+        <h3>二、門市服務體驗</h3>
+
+        <div class="field">
+          <label class="question">整體滿意度（1–5）</label>
+          <div class="options">
+            <label><input type="radio" name="overallScore" value="1" required> 1</label>
+            <label><input type="radio" name="overallScore" value="2"> 2</label>
+            <label><input type="radio" name="overallScore" value="3"> 3</label>
+            <label><input type="radio" name="overallScore" value="4"> 4</label>
+            <label><input type="radio" name="overallScore" value="5"> 5</label>
+          </div>
         </div>
 
         <div class="field" id="lowScoreArea" style="display:none;">
-         <label class="question">請問我們在哪些方面可以再加強？（可複選）</label>
-         <label><input type="checkbox" name="improve[]" value="接待互動"> 接待互動</label>
-         <label><input type="checkbox" name="improve[]" value="商品介紹"> 商品介紹</label>
-         <label><input type="checkbox" name="improve[]" value="體驗流程"> 體驗流程</label>
-         <label><input type="checkbox" name="improve[]" value="服務態度"> 服務態度</label>
-         <label><input type="checkbox" name="improve[]" value="結帳與說明"> 結帳與說明</label>
-         <label><input type="checkbox" name="improve[]" value="商品選擇"> 商品選擇</label>
-         <label><input type="checkbox" name="improve[]" value="商品適配度"> 商品適配度</label>
-         <label><input type="checkbox" name="improve[]" value="價格與價值感受"> 價格與價值感受</label>
-         <input type="text" name="improveOther" placeholder="其他">
-      </div>
+          <label class="question">可加強的地方（可複選）</label>
+          <label><input type="checkbox" name="improve[]" value="接待互動"> 接待互動</label>
+          <label><input type="checkbox" name="improve[]" value="商品介紹"> 商品介紹</label>
+          <label><input type="checkbox" name="improve[]" value="服務態度"> 服務態度</label>
+          <input type="text" name="improveOther" placeholder="其他">
+        </div>
 
-      <div class="field" id="highScoreArea" style="display:none;">
-         <label class="question">在服務過程中，讓您感覺不錯的地方？（可複選）</label>
-         <label><input type="checkbox" name="good[]" value="人員親切有禮"> 人員親切有禮</label>
-         <label><input type="checkbox" name="good[]" value="商品資訊清楚"> 商品資訊清楚，專業說明充足</label>
-         <label><input type="checkbox" name="good[]" value="提供試用"> 提供試用／體驗商品的機會</label>
-         <label><input type="checkbox" name="good[]" value="結帳說明清楚"> 結帳與保固說明清楚</label>
-         <label><input type="checkbox" name="good[]" value="沒有特別感覺"> 沒有特別感覺</label>
-         <label><input type="checkbox" name="good[]" value="商品符合需求"> 商品符合需求</label>
-         <label><input type="checkbox" name="good[]" value="價格價值符合"> 商品價格與價值符合</label>
-         <label><input type="checkbox" name="good[]" value="商品選擇多"> 商品選擇多、好比較</label>
-         <input type="text" name="goodOther" placeholder="其他">
-       </div>
+        <div class="field" id="highScoreArea" style="display:none;">
+          <label class="question">感覺不錯的地方（可複選）</label>
+          <label><input type="checkbox" name="good[]" value="人員親切"> 人員親切</label>
+          <label><input type="checkbox" name="good[]" value="商品專業"> 商品專業</label>
+          <label><input type="checkbox" name="good[]" value="商品符合需求"> 商品符合需求</label>
+          <input type="text" name="goodOther" placeholder="其他">
+        </div>
 
-         <!-- 整體推薦度 -->
-    <div class="field">
-      <label class="question">二、整體推薦度<br>若未來有需求，您願意再次讓我們為您服務？</label>
-      <div class="options">
-        <label><input type="radio" name="recommend" value="1" required> 1</label>
-        <label><input type="radio" name="recommend" value="2"> 2</label>
-        <label><input type="radio" name="recommend" value="3"> 3</label>
-        <label><input type="radio" name="recommend" value="4"> 4</label>
-        <label><input type="radio" name="recommend" value="5"> 5</label>
-      </div>
+        <div class="field">
+          <label class="question">整體推薦度（1–5）</label>
+          <div class="options">
+            <label><input type="radio" name="recommend" value="1" required> 1</label>
+            <label><input type="radio" name="recommend" value="2"> 2</label>
+            <label><input type="radio" name="recommend" value="3"> 3</label>
+            <label><input type="radio" name="recommend" value="4"> 4</label>
+            <label><input type="radio" name="recommend" value="5"> 5</label>
+          </div>
+        </div>
+
+        <h3>三、開放式回饋</h3>
+
+        <div class="field">
+          <label class="question">印象深刻的地方</label>
+          <textarea name="open1" rows="3"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="question">希望改進的地方</label>
+          <textarea name="open2" rows="3"></textarea>
+        </div>
+
+        <div class="note">您的回覆僅作為內部改善使用</div>
+
+        <button id="submitBtn" type="submit" class="btn">送出問卷</button>
+
+      </form>
     </div>
-
-    <!-- 開放式回饋 -->
-    <h3>三、開放式回饋</h3>
-
-    <div class="field">
-      <label class="question">1. 本次服務中，有沒有讓您印象較深刻的地方？</label>
-      <textarea name="open1" rows="3"></textarea>
-    </div>
-
-    <div class="field">
-      <label class="question">2. 未來您希望我們在哪些地方做得更好？</label>
-      <textarea name="open2" rows="3"></textarea>
-    </div>
-
-    <div class="note">您的回覆將保密，僅作為內部服務改善使用。</div>
-    <button type="submit" class="btn">送出問卷</button>
-  </form>
+  </div>
 </div>
 
 <script>
-  // ★ 請保留或替換為您自己的 GAS 部署網址
-  const GAS_URL = "https://script.google.com/macros/s/AKfycbzCphcqbEMUOcioq-owF9Q5jbtHvYRCAvxOm3Qb3lZLJd8ULYcrrFWhwA_CmIibtHKm/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbzCphcqbEMUOcioq-owF9Q5jbtHvYRCAvxOm3Qb3lZLJd8ULYcrrFWhwA_CmIibtHKm/exec";
 
-  document.addEventListener("DOMContentLoaded", async () => {
-    try{
-      await liff.init({ liffId: "2001230327-l7YbvL9o" });
-      const profile = await liff.getProfile();
-      const uid = profile.userId;
-      document.getElementById('UID').value = uid;
+document.addEventListener("DOMContentLoaded", async () => {
+  try{
+    await liff.init({ liffId: "2001230327-l7YbvL9o" });
+    const profile = await liff.getProfile();
+    document.getElementById("UID").value = profile.userId;
 
-      // 檢查是否已填寫
-      const statusEl = document.getElementById('status');
-      statusEl.textContent = '正在檢查是否已填寫...';
+    const res = await fetch(`${GAS_URL}?uid=${profile.userId}&check=1`);
+    const data = await res.json();
 
-      const res = await fetch(`${GAS_URL}?uid=${encodeURIComponent(uid)}&check=1`);
-      const data = await res.json();
+    document.getElementById("status").style.display = "none";
 
-      statusEl.style.display = 'none';
-
-      if (data && data.filled) {
-        document.getElementById('doneArea').style.display = 'block';
-      } else {
-        document.getElementById('surveyArea').style.display = 'block';
-      }
-
-    }catch(err){
-      console.error(err);
-      document.getElementById('status').textContent = '載入失敗，請確認網路或 LIFF 設定。';
+    if(data.filled){
+      document.getElementById("doneArea").style.display = "block";
+    }else{
+      document.getElementById("surveyArea").style.display = "block";
     }
-  });
-// a/b 情境顯示
-  document.querySelectorAll('input[name="overallScore"]').forEach(radio => {
-  radio.addEventListener('change', function () {
-    const score = Number(this.value);
-    document.getElementById('lowScoreArea').style.display = score <= 3 ? 'block' : 'none';
-    document.getElementById('highScoreArea').style.display = score >= 4 ? 'block' : 'none';
-  });
+
+    document.querySelectorAll('input[name="overallScore"]').forEach(r=>{
+      r.addEventListener("change",()=>{
+        const v=Number(r.value);
+        lowScoreArea.style.display = v<=3 ? "block":"none";
+        highScoreArea.style.display = v>=4 ? "block":"none";
+      });
+    });
+
+  }catch(e){
+    document.getElementById("status").textContent="載入失敗，請稍後再試";
+    console.error(e);
+  }
 });
 
-  // 表單送出
-  document.getElementById('surveyForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
+document.getElementById("surveyForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  submitBtn.disabled=true;
+  submitBtn.textContent="送出中…";
 
-    const submitBtn = document.getElementById('submitBtn');
-    submitBtn.disabled = true;
-    submitBtn.textContent = '送出中...';
+  const res = await fetch(GAS_URL,{method:"POST",body:new FormData(e.target)});
+  const result = await res.json();
 
-    const form = e.target;
-    const formData = new FormData(form);
-
-    try{
-      const res = await fetch(GAS_URL, { method: 'POST', body: formData });
-      const result = await res.json();
-
-      if (result && result.status === 'success'){
-        document.getElementById('surveyArea').style.display = 'none';
-        const done = document.getElementById('doneArea');
-        done.style.display = 'block';
-        done.querySelector('h3').textContent = '問卷已送出，感謝您的寶貴意見！';
-      }else{
-        alert('送出失敗，請稍後再試。');
-        submitBtn.disabled = false;
-        submitBtn.textContent = '送出問卷';
-      }
-
-    }catch(err){
-      console.error(err);
-      alert('無法送出（網路或服務端錯誤）。');
-      submitBtn.disabled = false;
-      submitBtn.textContent = '送出問卷';
-    }
-  });
+  if(result.status==="success"){
+    surveyArea.style.display="none";
+    doneArea.style.display="block";
+  }else{
+    alert("送出失敗");
+    submitBtn.disabled=false;
+    submitBtn.textContent="送出問卷";
+  }
+});
 </script>
+
+</body>
+</html>
+
 
 </body>
 </html>
