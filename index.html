@@ -117,8 +117,15 @@
       </select>
     </div>
     <div class="field">
-      <label class="question">2. 您的年齡：</label>
-      <input type="number" name="age" min="0" max="120" required>
+      <label class="question">2. 您的年齡</label>
+      <select name="ageRange" required>
+        <option value="">請選擇</option>
+        <option value="20歲以下">20歲以下</option>
+        <option value="21-30歲">21–30歲</option>
+        <option value="31-40歲">31–40歲</option>
+        <option value="41-50歲">41–50歲</option>
+        <option value="51歲以上">51歲以上</option>
+      </select>
     </div>
     <div class="field">
       < <label class="question">3. 本次消費的門市：</label>
@@ -146,133 +153,72 @@
       <label class="question">4. 本次消費日期：</label>
       <input type="date" name="purchaseDate" required>
     </div>
-     <div class="field">
-      <label class="question">5. 本次購買的商品種類：</label>
-      <div>
-        <label><input type="checkbox" name="productType" value="保護殼"> 保護殼</label>
-        <label><input type="checkbox" name="productType" value="保護貼"> 保護貼</label>
-        <label><input type="checkbox" name="productType" value="鏡頭膜"> 鏡頭膜</label>
-        <label><input type="checkbox" name="productType" value="充電線"> 充電線</label>
-        <label><input type="checkbox" name="productType" value="充電器"> 充電器</label>
-        <label><input type="checkbox" name="productType" value="行動電源"> 行動電源</label>
-        <label><input type="checkbox" name="productType" value="平板套"> 平板套</label>
-        <label><input type="checkbox" name="productType" value="手錶配件"> 手錶配件</label>
-        <label><input type="checkbox" name="productType" value="掛繩"> 掛繩</label>
-      </div>
-      <input type="text" name="productOther" placeholder="其他：___________">
-    </div>
     <h3>二、門市人員服務流程滿意度</h3>
         <div class="field">
-          <label class="question">1. 迎賓與主動關心<br>本次服務中，是否有主動向您問候？<span class="note">(必填)</span></label>
-          <div class="options" role="radiogroup" aria-labelledby="q1">
-            <label class="option"><input type="radio" name="Q1" value="人員主動向我問候並關心需求" required> 人員主動向我問候並關心需求</label>
-            <label class="option"><input type="radio" name="Q1" value="在我開口後才開始互動"> 在我開口後才開始互動</label>
-            <label class="option"><input type="radio" name="Q1" value="幾乎沒有主動互動"> 幾乎沒有主動互動</label>
-          </div>
+          <label class="question">一、整體滿意度<br>對於門市消費體驗，您的整體滿意度是？</label>
+            <div class="options">
+              <label><input type="radio" name="overallScore" value="1" required> 1</label>
+              <label><input type="radio" name="overallScore" value="2"> 2</label>
+              <label><input type="radio" name="overallScore" value="3"> 3</label>
+              <label><input type="radio" name="overallScore" value="4"> 4</label>
+              <label><input type="radio" name="overallScore" value="5"> 5</label>
+           </div>
         </div>
 
-        <div class="field">
-          <label class="question">2. 人員是否有先了解您的使用需求，再推薦商品？ <span class="note">(必填)</span></label>
-          <div class="options" role="radiogroup">
-            <label class="option"><input type="radio" name="Q2" value="有，並清楚了解我的需求" required> 有，並清楚了解我的需求</label>
-            <label class="option"><input type="radio" name="Q2" value="僅確認手機型號，未多問其他習慣"> 僅確認手機型號，未多問其他習慣</label>
-            <label class="option"><input type="radio" name="Q2" value="幾乎沒有，直接推薦"> 幾乎沒有，直接推薦</label>
-          </div>
-        </div>
-      <div class="field">
-      <label class="question">3. 人員詢問需求的方式是否讓您感到自然、不造成壓力？（1=非常不滿意，5=非常滿意）<span class="note">(必填)</span></label>
-        <div>
-          <label><input type="radio" name="question1Rating" value="1" required> 1</label>
-          <label><input type="radio" name="question1Rating" value="2"> 2</label>
-          <label><input type="radio" name="question1Rating" value="3"> 3</label>
-          <label><input type="radio" name="question1Rating" value="4"> 4</label>
-          <label><input type="radio" name="question1Rating" value="5"> 5</label>
-        </div>
+        <div class="field" id="lowScoreArea" style="display:none;">
+         <label class="question">請問我們在哪些方面可以再加強？（可複選）</label>
+         <label><input type="checkbox" name="improve[]" value="接待互動"> 接待互動</label>
+         <label><input type="checkbox" name="improve[]" value="商品介紹"> 商品介紹</label>
+         <label><input type="checkbox" name="improve[]" value="體驗流程"> 體驗流程</label>
+         <label><input type="checkbox" name="improve[]" value="服務態度"> 服務態度</label>
+         <label><input type="checkbox" name="improve[]" value="結帳與說明"> 結帳與說明</label>
+         <label><input type="checkbox" name="improve[]" value="商品選擇"> 商品選擇</label>
+         <label><input type="checkbox" name="improve[]" value="商品適配度"> 商品適配度</label>
+         <label><input type="checkbox" name="improve[]" value="價格與價值感受"> 價格與價值感受</label>
+         <input type="text" name="improveOther" placeholder="其他">
       </div>
-       <div class="field">
-          <label class="question">4. 人員推薦商品時，是否能說明該商品「符合您哪項需求」或「解決什麼問題」？ <span class="note">(必填)</span></label>
-          <div class="options" role="radiogroup">
-            <label class="option"><input type="radio" name="Q4" value="有，能具體說明推薦理由，並符合我的狀況" required> 有，能具體說明推薦理由，並符合我的狀況</label>
-            <label class="option"><input type="radio" name="Q4" value="有簡單介紹功能，但未特別連結我的需求"> 有簡單介紹功能，但未特別連結我的需求</label>
-            <label class="option"><input type="radio" name="Q4" value="僅照著包裝念或只談價格，沒什麼特別說明"> 僅照著包裝念或只談價格，沒什麼特別說明</label>
-          </div>
-        </div>
-       <div class="field">
-          <label class="question">5. 人員介紹商品是否清楚、簡單易懂？  請以 1～5 分評價（1=非常不滿意，5=非常滿意） <span class="note">(必填)</span></label>
-           <div>
-              <label><input type="radio" name="question1Rating" value="1" required> 1</label>
-              <label><input type="radio" name="question1Rating" value="2"> 2</label>
-              <label><input type="radio" name="question1Rating" value="3"> 3</label>
-              <label><input type="radio" name="question1Rating" value="4"> 4</label>
-              <label><input type="radio" name="question1Rating" value="5"> 5</label>
-           </div>
-        </div>
-        <div class="field">
-          <label class="question">6. 是否有邀請您實際試裝或體驗商品？ <span class="note">(必填)</span></label>
-          <div class="options" role="radiogroup">
-            <label class="option"><input type="radio" name="Q6" value="有主動邀請" required> 有主動邀請</label>
-            <label class="option"><input type="radio" name="Q6" value="在我詢問後才提供"> 在我詢問後才提供</label>
-            <label class="option"><input type="radio" name="Q6" value="沒有"> 沒有</label>
-            <label class="option"><input type="radio" name="Q6" value="不適用（無實品可試/不需要）"> 不適用（無實品可試/不需要）</label>
-          </div>
-        </div>
-        <div class="field">
-          <label class="question">7. 是否有說明商品的使用方式或保養注意事項？ <span class="note">(必填)</span></label>
-          <div class="options" role="radiogroup">
-            <label class="option"><input type="radio" name="Q6" value="有主動且清楚說明" required> 有主動且清楚說明</label>
-            <label class="option"><input type="radio" name="Q6" value="有簡單提到"> 有簡單提到</label>
-            <label class="option"><input type="radio" name="Q6" value="沒有特別說明"> 沒有特別說明</label>
-          </div>
-        </div>
-        <div class="field">
-          <label class="question">8. 人員整體服務態度（耐心、親切）是否讓您感到舒適？  請以 1～5 分評價（1=非常不滿意，5=非常滿意) <span class="note">(必填)</span></label>
-          <div>
-              <label><input type="radio" name="question1Rating" value="1" required> 1</label>
-              <label><input type="radio" name="question1Rating" value="2"> 2</label>
-              <label><input type="radio" name="question1Rating" value="3"> 3</label>
-              <label><input type="radio" name="question1Rating" value="4"> 4</label>
-              <label><input type="radio" name="question1Rating" value="5"> 5</label>
-           </div>
-        </div>
-        <div class="field">
-          <label class="question">9. 您對本次購物體驗的整體滿意度為？  請以 1～5 分評價（1=非常不滿意，5=非常滿意）<span class="note">(必填)</span></label>
-          <div>
-              <label><input type="radio" name="question1Rating" value="1" required> 1</label>
-              <label><input type="radio" name="question1Rating" value="2"> 2</label>
-              <label><input type="radio" name="question1Rating" value="3"> 3</label>
-              <label><input type="radio" name="question1Rating" value="4"> 4</label>
-              <label><input type="radio" name="question1Rating" value="5"> 5</label>
-           </div>
-        </div>
-        
-    <h3>三、開放式回饋</h3>  
-        <div class="field">
-          <label class="question">有哪些地方我們還可以做得更好？</label>
-          <textarea name="comment" rows="4" placeholder="例如：服務哪裡可以改進、想要的商品或活動..." style="resize:vertical;padding:10px;border-radius:8px;border:1px solid rgba(16,24,40,0.06);font-size:14px;"></textarea>
-        </div>
-        <div class="field">
-          <label class="question">我們有那些服務是讓您感受到最印象深刻的？</label>
-          <textarea name="comment" rows="4" placeholder="例如：服務哪裡可以改進、想要的商品或活動..." style="resize:vertical;padding:10px;border-radius:8px;border:1px solid rgba(16,24,40,0.06);font-size:14px;"></textarea>
-        </div>
-       <div class="field">
-          <label class="question">您願意推薦我們給親友嗎，讓您更願意再回來？</label>
-          <textarea name="comment" rows="4" placeholder="例如：服務哪裡可以改進、想要的商品或活動..." style="resize:vertical;padding:10px;border-radius:8px;border:1px solid rgba(16,24,40,0.06);font-size:14px;"></textarea>
-        </div>
-   <h3>四、整體推薦度</h3>     
-        <div style="display:flex;gap:10px;align-items:center;justify-content:space-between;">
-          <div class="note">您的回覆將保密，僅作為內部改進使用。</div>
-          <button class="btn" id="submitBtn" type="submit">送出問卷</button>
-        </div>
-      </form>
+
+      <div class="field" id="highScoreArea" style="display:none;">
+         <label class="question">在服務過程中，讓您感覺不錯的地方？（可複選）</label>
+         <label><input type="checkbox" name="good[]" value="人員親切有禮"> 人員親切有禮</label>
+         <label><input type="checkbox" name="good[]" value="商品資訊清楚"> 商品資訊清楚，專業說明充足</label>
+         <label><input type="checkbox" name="good[]" value="提供試用"> 提供試用／體驗商品的機會</label>
+         <label><input type="checkbox" name="good[]" value="結帳說明清楚"> 結帳與保固說明清楚</label>
+         <label><input type="checkbox" name="good[]" value="沒有特別感覺"> 沒有特別感覺</label>
+         <label><input type="checkbox" name="good[]" value="商品符合需求"> 商品符合需求</label>
+         <label><input type="checkbox" name="good[]" value="價格價值符合"> 商品價格與價值符合</label>
+         <label><input type="checkbox" name="good[]" value="商品選擇多"> 商品選擇多、好比較</label>
+         <input type="text" name="goodOther" placeholder="其他">
+       </div>
+
+         <!-- 整體推薦度 -->
+    <div class="field">
+      <label class="question">二、整體推薦度<br>若未來有需求，您願意再次讓我們為您服務？</label>
+      <div class="options">
+        <label><input type="radio" name="recommend" value="1" required> 1</label>
+        <label><input type="radio" name="recommend" value="2"> 2</label>
+        <label><input type="radio" name="recommend" value="3"> 3</label>
+        <label><input type="radio" name="recommend" value="4"> 4</label>
+        <label><input type="radio" name="recommend" value="5"> 5</label>
+      </div>
     </div>
 
-    <!-- 已填寫顯示 -->
-    <div id="doneArea" class="done" style="display:none;">
-      <h3>您已經填寫過本次問卷，感謝您的參與！</h3>
-      <p class="note">若需要修改回覆，請聯絡我們的門市人員或客服。</p>
+    <!-- 開放式回饋 -->
+    <h3>三、開放式回饋</h3>
+
+    <div class="field">
+      <label class="question">1. 本次服務中，有沒有讓您印象較深刻的地方？</label>
+      <textarea name="open1" rows="3"></textarea>
     </div>
 
-  </div>
+    <div class="field">
+      <label class="question">2. 未來您希望我們在哪些地方做得更好？</label>
+      <textarea name="open2" rows="3"></textarea>
+    </div>
+
+    <div class="note">您的回覆將保密，僅作為內部服務改善使用。</div>
+    <button type="submit" class="btn">送出問卷</button>
+  </form>
 </div>
 
 <script>
