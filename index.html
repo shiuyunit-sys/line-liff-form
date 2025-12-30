@@ -274,12 +274,14 @@ document.getElementById("surveyForm").addEventListener("submit", async e => {
       surveyArea.style.display = "none";
       doneArea.style.display = "block";
     } else if (result.status === "duplicate") {
-      alert("您已填寫過此問卷");
-      submitBtn.disabled = false;
-      submitBtn.textContent = "送出問卷";
-    } else {
-      throw new Error("unknown response");
-    }
+  surveyArea.style.display = "none";
+  doneArea.style.display = "block";
+  doneArea.querySelector("h3").textContent =
+    "您已填寫過此問卷，感謝您的回饋！";
+
+} else {
+  throw new Error("unknown status");
+}
 
   } catch (err) {
     console.error(err);
