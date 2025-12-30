@@ -150,7 +150,7 @@
         <h3>二、門市服務體驗</h3>
 
         <div class="field">
-          <label class="question">整體滿意度（1–5）</label>
+          <label class="question">對於門市消費體驗，您的整體滿意度是？</label>
           <div class="options">
             <label><input type="radio" name="overallScore" value="1" required> 1</label>
             <label><input type="radio" name="overallScore" value="2"> 2</label>
@@ -161,18 +161,28 @@
         </div>
 
         <div class="field" id="lowScoreArea" style="display:none;">
-          <label class="question">可加強的地方（可複選）</label>
-          <label><input type="checkbox" name="improve[]" value="接待互動"> 接待互動</label>
-          <label><input type="checkbox" name="improve[]" value="商品介紹"> 商品介紹</label>
-          <label><input type="checkbox" name="improve[]" value="服務態度"> 服務態度</label>
+          <label class="question">請問我們在哪些方面可以再加強？（可複選）</label>
+          <label><input type="checkbox" name="improve[]" value="接待互動">接待互動（希望互動更積極或更多關注）</label>
+          <label><input type="checkbox" name="improve[]" value="商品介紹">商品介紹（希望資訊能更完整或清楚）</label>
+          <label><input type="checkbox" name="improve[]" value="體驗流程">體驗流程（希望有更多試用或展示機會）</label>
+          <label><input type="checkbox" name="improve[]" value="服務態度">服務態度（希望能更有耐心或親切）</label>
+          <label><input type="checkbox" name="improve[]" value="結帳與說明">結帳與說明（希望保固與注意事項更清楚）</label>
+          <label><input type="checkbox" name="improve[]" value="商品選擇">商品選擇（希望款式／規格有更多選擇）</label>
+          <label><input type="checkbox" name="improve[]" value="商品適配度">商品適配度（希望更容易找到適合的商品）</label>
+          <label><input type="checkbox" name="improve[]" value="價格與價值感受">價格與價值感受（期待更符合預期）</label>
           <input type="text" name="improveOther" placeholder="其他">
         </div>
 
         <div class="field" id="highScoreArea" style="display:none;">
-          <label class="question">感覺不錯的地方（可複選）</label>
-          <label><input type="checkbox" name="good[]" value="人員親切"> 人員親切</label>
-          <label><input type="checkbox" name="good[]" value="商品專業"> 商品專業</label>
-          <label><input type="checkbox" name="good[]" value="商品符合需求"> 商品符合需求</label>
+          <label class="question">在消費過程中，讓您感覺不錯的地方？</label>
+          <label><input type="checkbox" name="good[]" value="人員親切"> 人員親切有禮</label>
+          <label><input type="checkbox" name="good[]" value="商品專業"> 商品資訊清楚，專業說明充足</label>
+          <label><input type="checkbox" name="good[]" value="商品符合需求"> 提供試用/體驗商品的機會</label>
+           <label><input type="checkbox" name="good[]" value="結帳與說明"> 結帳與保固說明清楚 </label>
+           <label><input type="checkbox" name="good[]" value="沒有特別感覺"> 沒有特別感覺</label>
+           <label><input type="checkbox" name="good[]" value="商品適配度"> 商品符合需求</label>
+           <label><input type="checkbox" name="good[]" value="價格與價值感受"> 商品價格與價值符合</label>
+           <label><input type="checkbox" name="good[]" value="商品選擇"> 商品選擇多、好比較</label>
           <input type="text" name="goodOther" placeholder="其他">
         </div>
 
@@ -242,21 +252,40 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-document.getElementById("surveyForm").addEventListener("submit",async e=>{
+document.getElementById("surveyForm").addEventListener("submit", async e => {
   e.preventDefault();
-  submitBtn.disabled=true;
-  submitBtn.textContent="送出中…";
 
-  const res = await fetch(GAS_URL,{method:"POST",body:new FormData(e.target)});
-  const result = await res.json();
+  const submitBtn = document.getElementById("submitBtn");
+  const surveyArea = document.getElementById("surveyArea");
+  const doneArea = document.getElementById("doneArea");
 
-  if(result.status==="success"){
-    surveyArea.style.display="none";
-    doneArea.style.display="block";
-  }else{
-    alert("送出失敗");
-    submitBtn.disabled=false;
-    submitBtn.textContent="送出問卷";
+  submitBtn.disabled = true;
+  submitBtn.textContent = "送出中…";
+
+  try {
+    const res = await fetch(GAS_URL, {
+      method: "POST",
+      body: new FormData(e.target)
+    });
+
+    const result = await res.json();
+
+    if (result.status === "success") {
+      surveyArea.style.display = "none";
+      doneArea.style.display = "block";
+    } else if (result.status === "duplicate") {
+      alert("您已填寫過此問卷");
+      submitBtn.disabled = false;
+      submitBtn.textContent = "送出問卷";
+    } else {
+      throw new Error("unknown response");
+    }
+
+  } catch (err) {
+    console.error(err);
+    alert("送出失敗，請稍後再試");
+    submitBtn.disabled = false;
+    submitBtn.textContent = "送出問卷";
   }
 });
 </script>
