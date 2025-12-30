@@ -128,7 +128,7 @@
       </select>
     </div>
     <div class="field">
-      < <label class="question">3. 本次消費的門市：</label>
+       <label class="question">3. 本次消費的門市：</label>
       <select name="store" required>
         <option value="">請選擇門市</option>
         <option value="門市1">西區</option>
@@ -252,6 +252,14 @@
       document.getElementById('status').textContent = '載入失敗，請確認網路或 LIFF 設定。';
     }
   });
+// a/b 情境顯示
+  document.querySelectorAll('input[name="overallScore"]').forEach(radio => {
+  radio.addEventListener('change', function () {
+    const score = Number(this.value);
+    document.getElementById('lowScoreArea').style.display = score <= 3 ? 'block' : 'none';
+    document.getElementById('highScoreArea').style.display = score >= 4 ? 'block' : 'none';
+  });
+});
 
   // 表單送出
   document.getElementById('surveyForm').addEventListener('submit', async (e) => {
