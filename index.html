@@ -197,7 +197,7 @@
         </div>
 
         <div class="field">
-          <label class="question">整體推薦度（1–5）</label>
+          <label class="question">基於本次的體驗，若未來有需求，您願意再次讓我們為您服務？（1＝完全不會，5＝非常願意）</label>
           <div class="options">
             <label><input type="radio" name="recommend" value="1" required> 1</label>
             <label><input type="radio" name="recommend" value="2"> 2</label>
@@ -210,12 +210,12 @@
         <h3>三、開放式回饋</h3>
 
         <div class="field">
-          <label class="question">印象深刻的地方</label>
+          <label class="question">1.本次服務中，有沒有讓您印象較深刻的地方？</label>
           <textarea name="open1" rows="3"></textarea>
         </div>
 
         <div class="field">
-          <label class="question">希望改進的地方</label>
+          <label class="question">2.未來您希望我們在哪些地方做得更好？</label>
           <textarea name="open2" rows="3"></textarea>
         </div>
 
@@ -272,33 +272,25 @@ document.getElementById("surveyForm").addEventListener("submit", async e => {
   submitBtn.disabled = true;
   submitBtn.textContent = "送出中…";
 
-  try {
-    const res = await fetch(GAS_URL, {
-      method: "POST",
-      body: new FormData(e.target)
-    });
-
-    const result = await res.json();
-
-    if (result.status === "success") {
-      surveyArea.style.display = "none";
-      doneArea.style.display = "block";
-    } else if (result.status === "duplicate") {
-  surveyArea.style.display = "none";
-  doneArea.style.display = "block";
-  doneArea.querySelector("h3").textContent =
-    "您已填寫過此問卷，感謝您的回饋！";
-
-} else {
-  throw new Error("unknown status");
-}
-
-  } catch (err) {
-    console.error(err);
-    alert("送出失敗，請稍後再試");
-    submitBtn.disabled = false;
-    submitBtn.textContent = "送出問卷";
+  try{
+  const res = await fetch(GAS_URL, { method: "POST", body: new FormData(e.target) });
+  const result = await res.json();
+  
+  if(result.status && result.status.toLowerCase() === "success"){
+    surveyArea.style.display="none";
+    doneArea.style.display="block";
+  } else if(result.status && result.status.toLowerCase() === "duplicate"){
+    alert("您已填寫過問卷！");
+    surveyArea.style.display="none";
+    doneArea.style.display="block";
+  } else {
+    console.log("送出結果:", result);
+    alert("送出異常，請稍後再試");
   }
+} catch(err) {
+  console.error("Fetch 錯誤", err);
+  // alert("送出失敗，請稍後再試"); // 可選擇暫時註解
+}
 });
 </script>
 
