@@ -272,25 +272,29 @@ document.getElementById("surveyForm").addEventListener("submit", async e => {
   submitBtn.disabled = true;
   submitBtn.textContent = "送出中…";
 
-  try{
-  const res = await fetch(GAS_URL, { method: "POST", body: new FormData(e.target) });
-  const result = await res.json();
-  
-  if(result.status && result.status.toLowerCase() === "success"){
-    surveyArea.style.display="none";
-    doneArea.style.display="block";
-  } else if(result.status && result.status.toLowerCase() === "duplicate"){
-    alert("您已填寫過問卷！");
-    surveyArea.style.display="none";
-    doneArea.style.display="block";
-  } else {
-    console.log("送出結果:", result);
-    alert("送出異常，請稍後再試");
+  try {
+    const res = await fetch(GAS_URL, { method: "POST", body: new FormData(e.target) });
+    const result = await res.json();
+
+    if (result.status && result.status.toLowerCase() === "success") {
+      surveyArea.style.display = "none";
+      doneArea.style.display = "block";
+    } else if (result.status && result.status.toLowerCase() === "duplicate") {
+      surveyArea.style.display = "none";
+      doneArea.style.display = "block";
+      doneArea.querySelector("h3").textContent = "您已填寫過問卷，感謝您的回饋！";
+    } else {
+      console.log("送出結果:", result);
+      alert("送出異常，請稍後再試");
+      submitBtn.disabled = false;
+      submitBtn.textContent = "送出問卷";
+    }
+  } catch (err) {
+    console.error("Fetch 錯誤", err);
+    submitBtn.disabled = false;
+    submitBtn.textContent = "送出問卷";
+    alert("送出失敗，請稍後再試");
   }
-} catch(err) {
-  console.error("Fetch 錯誤", err);
-  // alert("送出失敗，請稍後再試"); // 可選擇暫時註解
-}
 });
 </script>
 
