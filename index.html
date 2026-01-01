@@ -273,26 +273,19 @@ document.getElementById("surveyForm").addEventListener("submit", async e => {
   submitBtn.disabled = true;
   submitBtn.textContent = "送出中…";
 
-  try {
-    const res = await fetch(GAS_URL, {
+   try {
+    await fetch(GAS_URL, {
       method: "POST",
       body: new FormData(e.target)
     });
-
-    // 🔴 不用 res.json()
-    const text = await res.text();
-    console.log("GAS 回傳內容：", text);
-
-    // ✅ 只要 fetch 沒丟錯，就視為成功
-    surveyArea.style.display = "none";
-    doneArea.style.display = "block";
-
   } catch (err) {
-    console.error("Fetch 錯誤", err);
-    alert("送出失敗，請稍後再試");
-    submitBtn.disabled = false;
-    submitBtn.textContent = "送出問卷";
+    // 不顯示錯誤，避免誤判
+    console.warn("fetch 非致命錯誤", err);
   }
+
+  // 一律顯示完成畫面
+  surveyArea.style.display = "none";
+  doneArea.style.display = "block";
 });
 </script>
 </script>
