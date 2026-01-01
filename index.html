@@ -279,33 +279,19 @@ document.getElementById("surveyForm").addEventListener("submit", async e => {
       body: new FormData(e.target)
     });
 
-    // 🔴 關鍵修正：不用 res.json()
+    // 🔴 不用 res.json()
     const text = await res.text();
     console.log("GAS 回傳內容：", text);
 
-    if (text.includes("success")) {
-      surveyArea.style.display = "none";
-      doneArea.style.display = "block";
-      return;
-    }
-
-    if (text.includes("duplicate")) {
-      surveyArea.style.display = "none";
-      doneArea.style.display = "block";
-      doneArea.querySelector("h3").textContent = "您已填寫過問卷，感謝您的回饋！";
-      return;
-    }
-
-    // 其他非預期內容
-    alert("送出異常，請稍後再試");
-    submitBtn.disabled = false;
-    submitBtn.textContent = "送出問卷";
+    // ✅ 只要 fetch 沒丟錯，就視為成功
+    surveyArea.style.display = "none";
+    doneArea.style.display = "block";
 
   } catch (err) {
     console.error("Fetch 錯誤", err);
+    alert("送出失敗，請稍後再試");
     submitBtn.disabled = false;
     submitBtn.textContent = "送出問卷";
-    alert("送出失敗，請稍後再試");
   }
 });
 </script>
