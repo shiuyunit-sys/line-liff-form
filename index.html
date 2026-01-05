@@ -219,6 +219,7 @@
           <textarea name="open2" rows="3"></textarea>
         </div>
 
+        <div class="note">小提醒：問卷完成後，購物金將於下週三統一發送，謝謝您的耐心等候😊</div>
         <div class="note">您的回覆僅作為內部改善使用</div>
 
         <button id="submitBtn" type="submit" class="btn">送出問卷</button>
@@ -249,13 +250,34 @@ document.addEventListener("DOMContentLoaded", async () => {
       document.getElementById("surveyArea").style.display = "block";
     }
 
-    document.querySelectorAll('input[name="overallScore"]').forEach(r => {
-      r.addEventListener("change", () => {
-        const v = Number(r.value);
-        lowScoreArea.style.display = v <= 3 ? "block" : "none";
-        highScoreArea.style.display = v >= 4 ? "block" : "none";
-      });
-    });
+    const lowScoreArea = document.getElementById("lowScoreArea");
+const highScoreArea = document.getElementById("highScoreArea");
+
+function clearCheckboxes(selector) {
+  document.querySelectorAll(selector).forEach(cb => {
+    cb.checked = false;
+  });
+}
+
+document.querySelectorAll('input[name="overallScore"]').forEach(r => {
+  r.addEventListener("change", () => {
+    const v = Number(r.value);
+
+    if (v <= 3) {
+      // 顯示缺點、清空亮點
+      lowScoreArea.style.display = "block";
+      highScoreArea.style.display = "none";
+      clearCheckboxes('input[name="good[]"]');
+      document.querySelector('input[name="goodOther"]').value = "";
+    } else {
+      // 顯示亮點、清空缺點
+      lowScoreArea.style.display = "none";
+      highScoreArea.style.display = "block";
+      clearCheckboxes('input[name="improve[]"]');
+      document.querySelector('input[name="improveOther"]').value = "";
+    }
+  });
+});
 
   } catch (e) {
     document.getElementById("status").textContent = "載入失敗，請稍後再試";
