@@ -219,8 +219,7 @@
           <textarea name="open2" rows="3"></textarea>
         </div>
 
-        <div class="note">小提醒：問卷完成後，購物金將於下週三統一發送，謝謝您的耐心等候😊</div>
-        <div class="note">您的回覆僅作為內部改善使用</div>
+        <div class="note">1小提醒：問卷完成後，購物金將於下週三統一發送，謝謝您的耐心等候😊您的回覆僅作為內部改善使用</div>
 
         <button id="submitBtn" type="submit" class="btn">送出問卷</button>
 
@@ -292,10 +291,46 @@ document.getElementById("surveyForm").addEventListener("submit", async e => {
   const surveyArea = document.getElementById("surveyArea");
   const doneArea = document.getElementById("doneArea");
 
+  // 🔴 基本必填檢查（瀏覽器原生）
+  if (!e.target.checkValidity()) {
+    e.target.reportValidity();
+    return;
+  }
+
+  // 🔴 依分數檢查低分 / 高分區塊
+  const scoreEl = document.querySelector('input[name="overallScore"]:checked');
+  if (!scoreEl) {
+    alert("請選擇整體滿意度");
+    return;
+  }
+
+  const score = Number(scoreEl.value);
+
+  if (score <= 3) {
+    const checked = document.querySelectorAll(
+      '#lowScoreArea input[type="checkbox"]:checked'
+    );
+    if (checked.length === 0) {
+      alert("請至少選擇一項需要加強的地方");
+      return;
+    }
+  }
+
+  if (score >= 4) {
+    const checked = document.querySelectorAll(
+      '#highScoreArea input[type="checkbox"]:checked'
+    );
+    if (checked.length === 0) {
+      alert("請至少選擇一項滿意的地方");
+      return;
+    }
+  }
+
+  // 🔴 通過檢查後才鎖定按鈕
   submitBtn.disabled = true;
   submitBtn.textContent = "送出中…";
 
-   try {
+  try {
     await fetch(GAS_URL, {
       method: "POST",
       body: new FormData(e.target)
@@ -305,7 +340,7 @@ document.getElementById("surveyForm").addEventListener("submit", async e => {
     console.warn("fetch 非致命錯誤", err);
   }
 
-  // 一律顯示完成畫面
+  // 🔴 一律顯示完成畫面
   surveyArea.style.display = "none";
   doneArea.style.display = "block";
 });
