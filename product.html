@@ -107,6 +107,26 @@ label{
   font-size:13px;
   white-space:nowrap;
 }
+
+.store-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+.store-name{
+  width:80px;
+  font-size:13px;
+}
+
+.store-select{
+  width:80px;
+}
+
+.stock-box{
+  width:180px;
+}  
 </style>
 
 </head>
@@ -656,10 +676,8 @@ document.getElementById("form").addEventListener("submit", function (e) {
   });
 });
 
- function generateStockOptions(selectId) {
-  const select = document.getElementById(selectId);
-
-  select.innerHTML = '<option value="0">請選安全庫存量</option>';
+ function generateStockOptions(select) {
+  select.innerHTML = '<option value="">請選安全庫存量</option>';
 
   for (let i = 1; i <= 100; i++) {
     const opt = document.createElement("option");
@@ -668,6 +686,11 @@ document.getElementById("form").addEventListener("submit", function (e) {
     select.appendChild(opt);
   }
 }
+
+/* 初始化 */
+document.querySelectorAll(".stock-box").forEach(select => {
+  generateStockOptions(select);
+});
 
 /* 初始化所有門市 */
 generateStockOptions("allBox");
