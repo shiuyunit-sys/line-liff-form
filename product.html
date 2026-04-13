@@ -1,1 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>商品建檔</title>
 
+<style>
+body{
+  font-family: Arial, "Microsoft JhengHei";
+  background:#f4f6f8;
+  margin:0;
+  padding:20px;
+}
+
+/* 整體容器 */
+form{
+  background:#fff;
+  max-width:600px;
+  margin:20px auto;
+  padding:25px;
+  border-radius:12px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.08);
+}
+
+/* 標題 */
+h2{
+  text-align:center;
+  margin-top:10px;
+  color:#333;
+}
+
+/* label文字 */
+form br{
+  display:none;
+}
+
+/* 每個欄位間距 */
+form input,
+form select{
+  width:100%;
+  padding:10px;
+  margin:6px 0 16px 0;
+  border:1px solid #ddd;
+  border-radius:8px;
+  box-sizing:border-box;
+  font-size:14px;
+  transition:0.2s;
+}
+
+/* focus效果 */
+form input:focus,
+form select:focus{
+  border-color:#4a90e2;
+  outline:none;
+  box-shadow:0 0 0 2px rgba(74,144,226,0.2);
+}
+
+/* 按鈕 */
+button{
+  width:100%;
+  padding:12px;
+  background:#4a90e2;
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+button:hover{
+  background:#357ab8;
+}
+
+/* 讓文字更清楚 */
+label{
+  font-size:13px;
+  color:#555;
+}
+</style>
+
+</head>
+<body>
+
+<h2>商品輸入</h2>
+
+<form id="form">
+
+商品產編：
+<input type="text" id="code" required>
+
+商品名稱（最多37字）：
+<input type="text" id="name" maxlength="37" required>
+
+商品顏色（用 / 分隔）：
+<input type="text" id="color">
+
+成本：
+<input type="number" id="cost" required>
+
+重量：
+<input type="number" id="weight">
+
+折數：
+<input type="number" id="discount">
+
+售價(含帶貼)：
+<input type="number" id="price1" required>
+
+售價(不含帶貼)：
+<input type="number" id="price2">
+
+廠商別：
+<input type="text" id="vendor">
+
+商品狀態：
+<select id="status">
+  <option value="正常品">正常品</option>
+  <option value="限量1">限量1</option>
+  <option value="限量2">限量2</option>
+  <option value="限量3">限量3</option>
+  <option value="門市1">門市1</option>
+  <option value="門市2">門市2</option>
+  <option value="門市3">門市3</option>
+  <option value="預購1">預購1</option>
+  <option value="預購2">預購2</option>
+  <option value="網路1">網路1</option>
+  <option value="網路2">網路2</option>
+</select>
+
+商品大類：
+<select id="category1">
+  <option value="A-手機殼">A (手機殼)</option>
+  <option value="E-線材">E (線材)</option>
+  <option value="F-行動電源">F (行動電源)</option>
+  <option value="F1-無線充電板">F1 (無線充電板)</option>
+  <option value="G-平板套">G (平板套)</option>
+  <option value="H-保貼軟膜">H (保貼軟膜)</option>
+  <option value="H1-鏡頭膜">H1 (鏡頭膜)</option>
+  <option value="H2-玻璃貼">H2 (玻璃貼)</option>
+  <option value="J-充電器">J (充電器)</option>
+  <option value="J1-機車支架">J1 (機車支架)</option>
+  <option value="J2-汽車支架">J2 (汽車支架)</option>
+  <option value="J3-拍照配件">J3 (拍照配件)</option>
+  <option value="J4-音響">J4 (音響)</option>
+  <option value="J6-車充">J6 (車充)</option>
+  <option value="J9-掛繩">J9 (掛繩)</option>
+  <option value="JA-手機平板支架">JA (手機平板支架)</option>
+  <option value="K2-藍牙耳機">K2 (藍牙耳機)</option>
+  <option value="K5-季節性商品">K5 (季節性商品)</option>
+  <option value="K6-線控耳機">K6 (線控耳機)</option>
+  <option value="K7-AirPods">K7 (AirPods)</option>
+  <option value="K8-生活配件">K8 (生活配件)</option>
+  <option value="K9-遊戲類">K9 (遊戲類)</option>
+  <option value="W-穿戴裝置">W (穿戴裝置)</option>
+  <option value="PO-滿額贈品">PO (滿額贈品)</option>
+  <option value="PF-來店禮">PF (來店禮)</option>
+  <option value="PA-門市備品">PA (門市備品)</option>
+  <option value="PB-採購備品">PB (採購備品)</option>
+  <option value="Z-教育訓練">Z (教育訓練)</option>
+</select>
+
+商品中類：
+<select id="category2">
+  <option value="充電設備">充電設備</option>
+  <option value="收納類">收納類</option>
+</select>
+
+商品小類：
+<select id="category3">
+  <option value="線材">線材</option>
+  <option value="轉接頭">轉接頭</option>
+</select>
+
+商品細類：
+<select id="category4">
+  <option value="Type-C">Type-C</option>
+  <option value="Lightning">Lightning</option>
+</select>
+
+<button type="submit">送出</button>
+
+</form>
+
+<script>
+const API_URL = "你的GAS網址";
+
+document.getElementById("form").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const name = document.getElementById("name").value;
+  if(name.length > 37){
+    alert("商品名稱不可超過37字");
+    return;
+  }
+
+  const data = {
+    code: document.getElementById("code").value,
+    name: name,
+    color: document.getElementById("color").value,
+    cost: document.getElementById("cost").value,
+    weight: document.getElementById("weight").value,
+    discount: document.getElementById("discount").value,
+    price1: document.getElementById("price1").value,
+    price2: document.getElementById("price2").value,
+    vendor: document.getElementById("vendor").value,
+    status: document.getElementById("status").value,
+    category1: document.getElementById("category1").value,
+    category2: document.getElementById("category2").value,
+    category3: document.getElementById("category3").value,
+    category4: document.getElementById("category4").value
+  };
+
+  fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify(data)
+  })
+  .then(() => {
+    alert("送出成功");
+    document.getElementById("form").reset();
+  });
+});
+</script>
+
+</body>
+</html>
