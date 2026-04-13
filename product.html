@@ -454,31 +454,48 @@ label{
   <option value="W-WD (其他)">W-WD (其他)</option>
 
 </select>
-同步設定TMS+POS保固+備註：
+<div class="box">
+  <div class="title">同步設定TMS+POS保固+備註</div>
 
-<label><input type="checkbox" name="sync" value="無"> 無</label>
-<label><input type="checkbox" name="sync" value="1個月"> 1個月</label>
-<label><input type="checkbox" name="sync" value="3個月"> 3個月</label>
-<label><input type="checkbox" name="sync" value="其他" id="syncOtherCheck"> 其他</label>
+  <div class="check-grid">
+    <label><input type="checkbox" name="sync" value="無"> 無</label>
+    <label><input type="checkbox" name="sync" value="1個月"> 1個月</label>
+    <label><input type="checkbox" name="sync" value="3個月"> 3個月</label>
+    <label><input type="checkbox" name="sync" value="6個月"> 6個月</label>
+    <label><input type="checkbox" name="sync" value="1年"> 1年</label>
+    <label><input type="checkbox" name="sync" value="2年"> 2年</label>
+    <label><input type="checkbox" name="sync" value="3年"> 3年</label>
+    <label><input type="checkbox" name="sync" value="10年"> 10年</label>
+    <label><input type="checkbox" name="sync" value="客需自行官網登錄保固填寫廠商保固卡"> 客需自行官網登錄保固填寫廠商保固卡</label>
+    <label><input type="checkbox" name="sync" value="保固客需自行與原廠聯絡"> 保固客需自行與原廠聯絡</label>
+    <label><input type="checkbox" name="sync" value="其他" id="syncOtherCheck"> 其他</label>
+  </div>
 
-<div id="syncOtherBox" style="display:none;">
-  其他同步設定：
-  <input type="text" id="syncOther">
+  <div id="syncOtherBox" style="display:none;">
+    其他設定備註：
+    <input type="text" id="syncOther">
+  </div>
 </div>
-<br><br>  
-POS備註提醒：
 
-<label><input type="checkbox" name="posNote" value="價格提醒"> 價格提醒</label>
-<label><input type="checkbox" name="posNote" value="庫存提醒"> 庫存提醒</label>
-<label><input type="checkbox" name="posNote" value="促銷提醒"> 促銷提醒</label>
-<label><input type="checkbox" name="posNote" value="其他" id="posOtherCheck"> 其他</label>
 
-<div id="posOtherBox" style="display:none;">
-  其他POS備註：
-  <input type="text" id="posOther">
+<div class="box">
+  <div class="title">POS備註提醒</div>
+
+  <div class="check-grid">
+    <label><input type="checkbox" name="posNote" value="無"> 無</label>
+    <label><input type="checkbox" name="posNote" value="玻璃貼加購"> 玻璃貼加購</label>
+    <label><input type="checkbox" name="posNote" value="699滿額品"> 699滿額品</label>
+    <label><input type="checkbox" name="posNote" value="699滿額加購品"> 699滿額加購品</label>
+    <label><input type="checkbox" name="posNote" value="1199滿額品"> 1199滿額品</label>
+    <label><input type="checkbox" name="posNote" value="1199滿額加購品"> 1199滿額加購品</label>
+    <label><input type="checkbox" name="posNote" value="其他" id="posOtherCheck"> 其他</label>
+  </div>
+
+  <div id="posOtherBox" style="display:none;">
+    其他備註：
+    <input type="text" id="posOther">
+  </div>
 </div>
-
-<br><br>  
 
 <button type="submit">送出</button>
 
