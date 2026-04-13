@@ -454,6 +454,31 @@ label{
   <option value="W-WD (其他)">W-WD (其他)</option>
 
 </select>
+同步設定TMS+POS保固+備註：
+
+<label><input type="checkbox" name="sync" value="無"> 無</label>
+<label><input type="checkbox" name="sync" value="1個月"> 1個月</label>
+<label><input type="checkbox" name="sync" value="3個月"> 3個月</label>
+<label><input type="checkbox" name="sync" value="其他" id="syncOtherCheck"> 其他</label>
+
+<div id="syncOtherBox" style="display:none;">
+  其他同步設定：
+  <input type="text" id="syncOther">
+</div>
+<br><br>  
+POS備註提醒：
+
+<label><input type="checkbox" name="posNote" value="價格提醒"> 價格提醒</label>
+<label><input type="checkbox" name="posNote" value="庫存提醒"> 庫存提醒</label>
+<label><input type="checkbox" name="posNote" value="促銷提醒"> 促銷提醒</label>
+<label><input type="checkbox" name="posNote" value="其他" id="posOtherCheck"> 其他</label>
+
+<div id="posOtherBox" style="display:none;">
+  其他POS備註：
+  <input type="text" id="posOther">
+</div>
+
+<br><br>  
 
 <button type="submit">送出</button>
 
@@ -481,7 +506,7 @@ document.getElementById("form").addEventListener("submit", function(e){
   price1: document.getElementById("price1").value,
   price2: document.getElementById("price2").value,
 
-  vendorType: vendorType,
+  const vendorType = document.getElementById("vendorType").value;
   newVendor: document.getElementById("newVendor")?.value || "",
   oldVendor: document.getElementById("oldVendor")?.value || "",
 
