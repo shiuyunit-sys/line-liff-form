@@ -525,6 +525,79 @@ label{
   </div>
 </div>
 
+<div class="box">
+  <div class="title">門市安全量設定</div>
+
+  <!-- 全門市 -->
+  <div class="store-row">
+    <div class="store-name">全門市</div>
+    <select class="store-select" data-target="all">
+      <option value="無">無</option>
+      <option value="有">有</option>
+    </select>
+
+    <select id="allBox" class="stock-box" style="display:none;">
+      <option value="0">請選安全庫存量</option>
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+    </select>
+  </div>
+
+  <!-- 西區門市 -->
+  <div class="store-row">
+    <div class="store-name">西區門市</div>
+    <select class="store-select" data-target="west">
+      <option value="無">無</option>
+      <option value="有">有</option>
+    </select>
+
+    <select id="westBox" class="stock-box" style="display:none;">
+      <option value="0">請選安全庫存量</option>
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+    </select>
+  </div>
+
+  <!-- 大里門市 -->
+  <div class="store-row">
+    <div class="store-name">大里門市</div>
+    <select class="store-select" data-target="dali">
+      <option value="無">無</option>
+      <option value="有">有</option>
+    </select>
+
+    <select id="daliBox" class="stock-box" style="display:none;">
+      <option value="0">請選安全庫存量</option>
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+    </select>
+  </div>
+
+  <!-- 斗六門市 -->
+  <div class="store-row">
+    <div class="store-name">斗六門市</div>
+    <select class="store-select" data-target="douliu">
+      <option value="無">無</option>
+      <option value="有">有</option>
+    </select>
+
+    <select id="douliuBox" class="stock-box" style="display:none;">
+      <option value="0">請選安全庫存量</option>
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+    </select>
+  </div>
+
+</div>  
+
 <button type="submit">送出</button>
 
 </form>
