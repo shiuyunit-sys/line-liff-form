@@ -111,7 +111,24 @@ label{
 <input type="number" id="price2">
 
 廠商別：
-<input type="text" id="vendor">
+<select id="vendorType">
+  <option value="">請選擇</option>
+  <option value="new">新廠商</option>
+  <option value="old">舊廠商</option>
+</select>
+
+<!-- 新廠商名稱 -->
+<div id="newVendorBox" style="display:none;">
+  新廠商名稱：
+  <input type="text" id="newVendor">
+</div>
+
+<!-- 舊廠商編號 -->
+<div id="oldVendorBox" style="display:none;">
+  廠商編號：
+  <input type="text" id="oldVendor">
+</div>
+<br>
 
 商品狀態：
 <select id="status">
@@ -455,22 +472,45 @@ document.getElementById("form").addEventListener("submit", function(e){
   }
 
   const data = {
-    code: document.getElementById("code").value,
-    name: name,
-    color: document.getElementById("color").value,
-    cost: document.getElementById("cost").value,
-    weight: document.getElementById("weight").value,
-    discount: document.getElementById("discount").value,
-    price1: document.getElementById("price1").value,
-    price2: document.getElementById("price2").value,
-    vendor: document.getElementById("vendor").value,
-    status: document.getElementById("status").value,
-    category1: document.getElementById("category1").value,
-    category2: document.getElementById("category2").value,
-    category3: document.getElementById("category3").value,
-    category4: document.getElementById("category4").value
-  };
+  code: document.getElementById("code").value,
+  name: document.getElementById("name").value,
+  color: document.getElementById("color").value,
+  cost: document.getElementById("cost").value,
+  weight: document.getElementById("weight").value,
+  discount: document.getElementById("discount").value,
+  price1: document.getElementById("price1").value,
+  price2: document.getElementById("price2").value,
 
+  vendorType: vendorType,
+  newVendor: document.getElementById("newVendor")?.value || "",
+  oldVendor: document.getElementById("oldVendor")?.value || "",
+
+  status: document.getElementById("status").value,
+  category1: document.getElementById("category1").value,
+  category2: document.getElementById("category2").value,
+  category3: document.getElementById("category3").value,
+  category4: document.getElementById("category4").value
+   };
+  
+  document.getElementById("vendorType").addEventListener("change", function () {
+  const type = this.value;
+
+  const newBox = document.getElementById("newVendorBox");
+  const oldBox = document.getElementById("oldVendorBox");
+
+  if (type === "new") {
+    newBox.style.display = "block";
+    oldBox.style.display = "none";
+  } 
+  else if (type === "old") {
+    newBox.style.display = "none";
+    oldBox.style.display = "block";
+  } 
+  else {
+    newBox.style.display = "none";
+    oldBox.style.display = "none";
+  }
+});
   fetch(API_URL, {
     method: "POST",
     body: JSON.stringify(data)
@@ -480,6 +520,7 @@ document.getElementById("form").addEventListener("submit", function(e){
     document.getElementById("form").reset();
   });
 });
+  
 </script>
 
 </body>
