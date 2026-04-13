@@ -536,13 +536,7 @@ label{
       <option value="有">有</option>
     </select>
 
-    <select id="allBox" class="stock-box" style="display:none;">
-      <option value="0">請選安全庫存量</option>
-      <option value="5">5</option>
-      <option value="10">10</option>
-      <option value="20">20</option>
-      <option value="30">30</option>
-    </select>
+   <select id="newVendorBox" class="stock-box" style="display:none;"></select>
   </div>
 
   <!-- 西區門市 -->
@@ -553,13 +547,7 @@ label{
       <option value="有">有</option>
     </select>
 
-    <select id="westBox" class="stock-box" style="display:none;">
-      <option value="0">請選安全庫存量</option>
-      <option value="5">5</option>
-      <option value="10">10</option>
-      <option value="20">20</option>
-      <option value="30">30</option>
-    </select>
+    <select id="oldVendorBox" class="stock-box" style="display:none;"></select>
   </div>
 
   <!-- 大里門市 -->
@@ -570,13 +558,7 @@ label{
       <option value="有">有</option>
     </select>
 
-    <select id="daliBox" class="stock-box" style="display:none;">
-      <option value="0">請選安全庫存量</option>
-      <option value="5">5</option>
-      <option value="10">10</option>
-      <option value="20">20</option>
-      <option value="30">30</option>
-    </select>
+    <select id="syncOtherBox" class="stock-box" style="display:none;"></select>
   </div>
 
   <!-- 斗六門市 -->
@@ -587,13 +569,7 @@ label{
       <option value="有">有</option>
     </select>
 
-    <select id="douliuBox" class="stock-box" style="display:none;">
-      <option value="0">請選安全庫存量</option>
-      <option value="5">5</option>
-      <option value="10">10</option>
-      <option value="20">20</option>
-      <option value="30">30</option>
-    </select>
+    <select id="posOtherBox" class="stock-box" style="display:none;"></select>
   </div>
 
 </div>  
@@ -677,6 +653,25 @@ document.getElementById("form").addEventListener("submit", function (e) {
     document.getElementById("posOtherBox").style.display = "none";
   });
 });
+
+ function generateStockOptions(selectId) {
+  const select = document.getElementById(selectId);
+
+  select.innerHTML = '<option value="0">請選安全庫存量</option>';
+
+  for (let i = 1; i <= 100; i++) {
+    const opt = document.createElement("option");
+    opt.value = i;
+    opt.textContent = i;
+    select.appendChild(opt);
+  }
+}
+
+/* 初始化所有門市 */
+generateStockOptions("allBox");
+generateStockOptions("westBox");
+generateStockOptions("daliBox");
+generateStockOptions("douliuBox"); 
 </script>
 </body>
 </html>
