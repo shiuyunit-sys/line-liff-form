@@ -487,55 +487,63 @@ POS備註提醒：
 <script>
 const API_URL = "你的GAS網址";
 
-document.getElementById("form").addEventListener("submit", function(e){
-  e.preventDefault();
-
-  const name = document.getElementById("name").value;
-  if(name.length > 37){
-    alert("商品名稱不可超過37字");
-    return;
-  }
-
-  const data = {
-  code: document.getElementById("code").value,
-  name: document.getElementById("name").value,
-  color: document.getElementById("color").value,
-  cost: document.getElementById("cost").value,
-  weight: document.getElementById("weight").value,
-  discount: document.getElementById("discount").value,
-  price1: document.getElementById("price1").value,
-  price2: document.getElementById("price2").value,
-
-  const vendorType = document.getElementById("vendorType").value;
-  newVendor: document.getElementById("newVendor")?.value || "",
-  oldVendor: document.getElementById("oldVendor")?.value || "",
-
-  status: document.getElementById("status").value,
-  category1: document.getElementById("category1").value,
-  category2: document.getElementById("category2").value,
-  category3: document.getElementById("category3").value,
-  category4: document.getElementById("category4").value
-   };
-  
-  document.getElementById("vendorType").addEventListener("change", function () {
+/* ========= 廠商切換 ========= */
+document.getElementById("vendorType").addEventListener("change", function () {
   const type = this.value;
 
   const newBox = document.getElementById("newVendorBox");
   const oldBox = document.getElementById("oldVendorBox");
 
-  if (type === "new") {
-    newBox.style.display = "block";
-    oldBox.style.display = "none";
-  } 
-  else if (type === "old") {
-    newBox.style.display = "none";
-    oldBox.style.display = "block";
-  } 
-  else {
-    newBox.style.display = "none";
-    oldBox.style.display = "none";
-  }
+  newBox.style.display = (type === "new") ? "block" : "none";
+  oldBox.style.display = (type === "old") ? "block" : "none";
 });
+
+
+/* ========= 同步設定「其他」 ========= */
+document.getElementById("syncOtherCheck").addEventListener("change", function () {
+  document.getElementById("syncOtherBox").style.display =
+    this.checked ? "block" : "none";
+});
+
+
+/* ========= POS備註「其他」 ========= */
+document.getElementById("posOtherCheck").addEventListener("change", function () {
+  document.getElementById("posOtherBox").style.display =
+    this.checked ? "block" : "none";
+});
+
+
+/* ========= 送出 ========= */
+document.getElementById("form").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const data = {
+    code: document.getElementById("code").value,
+    name: document.getElementById("name").value,
+    color: document.getElementById("color").value,
+    cost: document.getElementById("cost").value,
+    weight: document.getElementById("weight").value,
+    discount: document.getElementById("discount").value,
+    price1: document.getElementById("price1").value,
+    price2: document.getElementById("price2").value,
+
+    vendorType: document.getElementById("vendorType").value,
+    newVendor: document.getElementById("newVendor").value || "",
+    oldVendor: document.getElementById("oldVendor").value || "",
+
+    status: document.getElementById("status").value,
+    category1: document.getElementById("category1").value,
+    category2: document.getElementById("category2").value,
+    category3: document.getElementById("category3").value,
+    category4: document.getElementById("category4").value,
+
+    sync: [...document.querySelectorAll("input[name='sync']:checked")].map(x => x.value),
+    syncOther: document.getElementById("syncOther").value || "",
+
+    posNote: [...document.querySelectorAll("input[name='posNote']:checked")].map(x => x.value),
+    posOther: document.getElementById("posOther").value || ""
+  };
+
   fetch(API_URL, {
     method: "POST",
     body: JSON.stringify(data)
@@ -543,10 +551,14 @@ document.getElementById("form").addEventListener("submit", function(e){
   .then(() => {
     alert("送出成功");
     document.getElementById("form").reset();
+
+    // reset hidden
+    document.getElementById("newVendorBox").style.display = "none";
+    document.getElementById("oldVendorBox").style.display = "none";
+    document.getElementById("syncOtherBox").style.display = "none";
+    document.getElementById("posOtherBox").style.display = "none";
   });
 });
-  
 </script>
-
 </body>
 </html>
