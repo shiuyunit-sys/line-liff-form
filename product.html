@@ -95,8 +95,9 @@ label{
 
 .check-grid{
   display:grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap:10px 20px;
+  align-items:center;
 }
 
 .check-grid label{
@@ -104,6 +105,7 @@ label{
   align-items:center;
   gap:6px;
   font-size:13px;
+  white-space:nowrap;
 }
 </style>
 
