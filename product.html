@@ -744,6 +744,80 @@ label{
 <script>
 const API_URL = "你的GAS網址";
 
+/* ========= 驗證 ========= */
+function validateForm() {
+
+  const requiredFields = [
+    { id: "code", name: "商品編號" },
+    { id: "name", name: "商品名稱" },
+    { id: "cost", name: "成本" },
+    { id: "weight", name: "重量" },
+    { id: "price1", name: "售價(含帶貼)" },
+    { id: "price2", name: "售價(不含帶貼)" },
+    { id: "vendorType", name: "廠商別" },
+    { id: "status", name: "商品狀態" },
+    { id: "category1", name: "商品大類" },
+    { id: "category2", name: "商品中類" },
+    { id: "category3", name: "商品小類" },
+    { id: "category4", name: "商品細類" }
+  ];
+
+  for (let f of requiredFields) {
+    const el = document.getElementById(f.id);
+    if (!el || el.value.trim() === "") {
+      alert(`請填寫【${f.name}】`);
+      el.focus();
+      return false;
+    }
+  }
+
+  // 名稱長度
+  if (document.getElementById("name").value.length > 37) {
+    alert("商品名稱不可超過37字");
+    return false;
+  }
+
+  // 廠商
+  const vendorType = document.getElementById("vendorType").value;
+  if (vendorType === "new" && !document.getElementById("newVendor").value) {
+    alert("請輸入新廠商名稱");
+    return false;
+  }
+  if (vendorType === "old" && !document.getElementById("oldVendor").value) {
+    alert("請填寫廠商編號");
+    return false;
+  }
+
+  // checkbox
+  if (!checkGroupRequired("sync", "請選擇保固設定")) return false;
+  if (!checkGroupRequired("posNote", "請選擇POS備註")) return false;
+
+  // 安全庫存
+  const rows = document.querySelectorAll(".store-row");
+  for (let row of rows) {
+    const name = row.querySelector(".store-name").innerText;
+    const enable = row.querySelector(".store-select").value;
+    const stock = row.querySelector(".stock-box").value;
+
+    if (enable === "yes" && (!stock || stock === "")) {
+      alert(`請選擇【${name}】的安全庫存量`);
+      return false;
+    }
+  }
+
+  return true;
+}
+
+/* ========= checkbox 驗證 ========= */
+function checkGroupRequired(name, message){
+  const checked = document.querySelectorAll(`input[name="${name}"]:checked`);
+  if (checked.length === 0) {
+    alert(message);
+    return false;
+  }
+  return true;
+}
+
 /* ========= 廠商切換 ========= */
 document.getElementById("vendorType").addEventListener("change", function () {
   const type = this.value;
@@ -757,45 +831,37 @@ document.getElementById("vendorType").addEventListener("change", function () {
   if (type === "new") {
     newBox.style.display = "block";
     oldBox.style.display = "none";
-
     newInput.required = true;
     oldInput.required = false;
     oldInput.value = "";
   } else if (type === "old") {
     newBox.style.display = "none";
     oldBox.style.display = "block";
-
     newInput.required = false;
     oldInput.required = true;
     newInput.value = "";
   }
 });
 
-
-/* ========= 同步設定「其他」 ========= */
+/* ========= 其他欄位 ========= */
 document.getElementById("syncOtherCheck").addEventListener("change", function () {
   const box = document.getElementById("syncOtherBox");
   const input = document.getElementById("syncOther");
-
   box.style.display = this.checked ? "block" : "none";
   input.required = this.checked;
 });
 
-
-/* ========= POS備註「其他」 ========= */
 document.getElementById("posOtherCheck").addEventListener("change", function () {
   const box = document.getElementById("posOtherBox");
   const input = document.getElementById("posOther");
-
   box.style.display = this.checked ? "block" : "none";
   input.required = this.checked;
 });
-
 
 /* ========= 安全庫存 ========= */
 document.addEventListener("DOMContentLoaded", function () {
 
-  // 產生 1~100
+  // 產生1~100
   document.querySelectorAll(".stock-box").forEach(select => {
     select.innerHTML = '<option value="">請選安全庫存量</option>';
     for (let i = 1; i <= 100; i++) {
@@ -806,72 +872,57 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // 顯示控制 + required
+  // 顯示控制
   document.querySelectorAll(".store-select").forEach(select => {
     select.addEventListener("change", function () {
       const row = this.closest(".store-row");
-      const stockBox = row.querySelector(".stock-box");
+      const box = row.querySelector(".stock-box");
 
       if (this.value === "yes") {
-        stockBox.style.display = "inline-block";
-        stockBox.required = true;
+        box.style.display = "inline-block";
+        box.required = true;
       } else {
-        stockBox.style.display = "none";
-        stockBox.required = false;
-        stockBox.value = "";
+        box.style.display = "none";
+        box.required = false;
+        box.value = "";
       }
     });
   });
 
 });
 
-
-/* ========= checkbox 驗證 ========= */
-function checkGroupRequired(name, message){
-  const checked = document.querySelectorAll(`input[name="${name}"]:checked`);
-  if (checked.length === 0) {
-    alert(message);
-    return false;
-  }
-  return true;
-}
-
-
 /* ========= 送出 ========= */
 document.getElementById("form").addEventListener("submit", function (e) {
   e.preventDefault();
 
-  // ⭐ checkbox 必填
-  if (!checkGroupRequired("sync", "請選擇保固設定")) return;
-  if (!checkGroupRequired("posNote", "請選擇POS備註")) return;
+  if (!validateForm()) return; // ⭐ 核心
 
   const data = {
-    code: document.getElementById("code").value,
-    name: document.getElementById("name").value,
-    color: document.getElementById("color").value,
-    cost: document.getElementById("cost").value,
-    weight: document.getElementById("weight").value,
-    discount: document.getElementById("discount").value,
-    price1: document.getElementById("price1").value,
-    price2: document.getElementById("price2").value,
+    code: code.value,
+    name: name.value,
+    color: color.value,
+    cost: cost.value,
+    weight: weight.value,
+    discount: discount.value,
+    price1: price1.value,
+    price2: price2.value,
 
-    vendorType: document.getElementById("vendorType").value,
-    newVendor: document.getElementById("newVendor").value || "",
-    oldVendor: document.getElementById("oldVendor").value || "",
+    vendorType: vendorType.value,
+    newVendor: newVendor.value || "",
+    oldVendor: oldVendor.value || "",
 
-    status: document.getElementById("status").value,
-    category1: document.getElementById("category1").value,
-    category2: document.getElementById("category2").value,
-    category3: document.getElementById("category3").value,
-    category4: document.getElementById("category4").value,
+    status: status.value,
+    category1: category1.value,
+    category2: category2.value,
+    category3: category3.value,
+    category4: category4.value,
 
     sync: [...document.querySelectorAll("input[name='sync']:checked")].map(x => x.value),
-    syncOther: document.getElementById("syncOther").value || "",
+    syncOther: syncOther.value || "",
 
     posNote: [...document.querySelectorAll("input[name='posNote']:checked")].map(x => x.value),
-    posOther: document.getElementById("posOther").value || "",
+    posOther: posOther.value || "",
 
-    // ⭐ 安全庫存
     stores: [...document.querySelectorAll(".store-row")].map(row => ({
       store: row.querySelector(".store-name").innerText,
       enable: row.querySelector(".store-select").value,
@@ -887,11 +938,11 @@ document.getElementById("form").addEventListener("submit", function (e) {
     alert("送出成功");
     document.getElementById("form").reset();
 
-    // reset UI
-    document.getElementById("newVendorBox").style.display = "none";
-    document.getElementById("oldVendorBox").style.display = "none";
-    document.getElementById("syncOtherBox").style.display = "none";
-    document.getElementById("posOtherBox").style.display = "none";
+    // UI reset
+    newVendorBox.style.display = "none";
+    oldVendorBox.style.display = "none";
+    syncOtherBox.style.display = "none";
+    posOtherBox.style.display = "none";
 
     document.querySelectorAll(".stock-box").forEach(el=>{
       el.style.display = "none";
