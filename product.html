@@ -936,31 +936,35 @@ document.getElementById("form").addEventListener("submit", function (e) {
     }))
   };
 
-  fetch(API_URL, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify(data)
-})
-.then(async (res) => {
-  const text = await res.text();
-  console.log("RAW:", text);
+ fetch(API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  })
+  .then(async (res) => {
+    const text = await res.text();
+    console.log("RAW RESPONSE:", text);
 
-  return JSON.parse(text);
-})
-.then(res => {
-
-  if (res.status === "success") {
-    alert("送出成功");
-  } else {
-    alert("送出失敗：" + (res.message || "no message"));
-  }
-
-})
-.catch(err => {
-  console.error(err);
-  alert("系統錯誤（JSON解析失敗或GAS沒回應）");
+    try {
+      return JSON.parse(text);
+    } catch (err) {
+      throw new Error("GAS 回傳不是 JSON：" + text);
+    }
+  })
+  .then(res => {
+    if (res.status === "success") {
+      alert("送出成功");
+      document.getElementById("form").reset();
+    } else {
+      alert("送出失敗：" + (res.message || "no message"));
+    }
+  })
+  .catch(err => {
+    console.error(err);
+    alert(err.message || "系統錯誤");
+  });
 });
 </body>
 </html>
