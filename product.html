@@ -904,24 +904,25 @@ document.getElementById("form").addEventListener("submit", function (e) {
   if (!validateForm()) return; // ⭐ 核心
 
   const data = {
-    code: code.value,
-    name: name.value,
-    color: color.value,
-    cost: cost.value,
-    weight: weight.value,
-    discount: discount.value,
-    price1: price1.value,
-    price2: price2.value,
+  code: document.getElementById("code").value,
+  name: document.getElementById("name").value,
+  color: document.getElementById("color").value,
+  cost: document.getElementById("cost").value,
+  weight: document.getElementById("weight").value,
+  discount: document.getElementById("discount").value,
+  price1: document.getElementById("price1").value,
+  price2: document.getElementById("price2").value,
 
-    vendorType: vendorType.value,
-    newVendor: newVendor.value || "",
-    oldVendor: oldVendor.value || "",
+  vendorType: document.getElementById("vendorType").value,
+  newVendor: document.getElementById("newVendor").value || "",
+  oldVendor: document.getElementById("oldVendor").value || "",
 
-    status: status.value,
-    category1: category1.value,
-    category2: category2.value,
-    category3: category3.value,
-    category4: category4.value,
+  status: document.getElementById("status").value,
+
+  category1: document.getElementById("category1").value,
+  category2: document.getElementById("category2").value,
+  category3: document.getElementById("category3").value,
+  category4: document.getElementById("category4").value,
 
     sync: [...document.querySelectorAll("input[name='sync']:checked")].map(x => x.value),
     syncOther: syncOther.value || "",
