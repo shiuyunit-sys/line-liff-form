@@ -673,30 +673,34 @@ document.getElementById("form").addEventListener("submit", function (e) {
   });
 });
 
- /* 初始化 1~100 */
-document.querySelectorAll(".stock-box").forEach(select => {
-  select.innerHTML = '<option value="">請選安全庫存量</option>';
-  for (let i = 1; i <= 100; i++) {
-    const opt = document.createElement("option");
-    opt.value = i;
-    opt.textContent = i;
-    select.appendChild(opt);
-  }
-});
+document.addEventListener("DOMContentLoaded", function () {
 
-/* 控制顯示 */
-document.querySelectorAll(".store-select").forEach(select => {
-  select.addEventListener("change", function () {
-    const row = this.closest(".store-row");       // 找同一列
-    const stockBox = row.querySelector(".stock-box");
-
-    if (this.value === "yes") {
-      stockBox.style.display = "inline-block";   // 顯示
-    } else {
-      stockBox.style.display = "none";           // 隱藏
-      stockBox.value = "";
+  // 產生1~100
+  document.querySelectorAll(".stock-box").forEach(select => {
+    select.innerHTML = '<option value="">請選安全庫存量</option>';
+    for (let i = 1; i <= 100; i++) {
+      const opt = document.createElement("option");
+      opt.value = i;
+      opt.textContent = i;
+      select.appendChild(opt);
     }
   });
+
+  // 控制顯示
+  document.querySelectorAll(".store-select").forEach(select => {
+    select.addEventListener("change", function () {
+      const row = this.closest(".store-row");
+      const stockBox = row.querySelector(".stock-box");
+
+      if (this.value === "yes") {
+        stockBox.style.display = "inline-block";
+      } else {
+        stockBox.style.display = "none";
+        stockBox.value = "";
+      }
+    });
+  });
+
 });
 </script>
 </body>
