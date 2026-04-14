@@ -146,7 +146,7 @@ label{
 <input type="number" id="cost" required>
 
 重量：
-<input type="number" id="weight">
+<input type="number" id="weight" required>
 
 折數：
 <input type="number" id="discount">
@@ -155,10 +155,10 @@ label{
 <input type="number" id="price1" required>
 
 售價(不含帶貼)：
-<input type="number" id="price2">
+<input type="number" id="price2" required>
 
 廠商別：
-<select id="vendorType">
+<select id="vendorType" required>
   <option value="">請選擇</option>
   <option value="new">新廠商</option>
   <option value="old">舊廠商</option>
@@ -178,7 +178,7 @@ label{
 <br>
 
 商品狀態：
-<select id="status">
+<select id="status" required>
   <option value="正常品">正常品</option>
   <option value="限量1">限量1</option>
   <option value="限量2">限量2</option>
@@ -193,7 +193,7 @@ label{
 </select>
 
 商品大類：
-<select id="category1">
+<select id="category1" required>
   <option value="A-手機殼">A (手機殼)</option>
   <option value="E-線材">E (線材)</option>
   <option value="F-行動電源">F (行動電源)</option>
@@ -225,7 +225,7 @@ label{
 </select>
 
 商品中類：
-<select id="category2">
+<select id="category2" required>
   <option value="AA-正常品">AA (正常品)</option>
   <option value="AC-預購品">AC (預購品)</option>
   <option value="AD-限量2">AD (限量2)</option>
@@ -244,7 +244,7 @@ label{
 </select>
 
 商品小類：
-<select id="category3">
+<select id="category3" required>
 
   <option value="無">無</option>
 
@@ -422,7 +422,7 @@ label{
 </select>
 
 商品細類：
-<select id="category4">
+<select id="category4" required>
 
   <option value="無">無</option>
 
@@ -501,10 +501,10 @@ label{
   <option value="W-WD (其他)">W-WD (其他)</option>
 
 </select>
-<div class="box">
+<div class="box" >
   <div class="title">同步設定TMS+POS保固+備註</div>
 
-  <div class="check-column">
+  <div class="check-column" required>
     <label><input type="checkbox" name="sync" value="無"> 無</label>
     <label><input type="checkbox" name="sync" value="1個月"> 1個月</label>
     <label><input type="checkbox" name="sync" value="3個月"> 3個月</label>
@@ -528,7 +528,7 @@ label{
 <div class="box">
   <div class="title">POS備註提醒</div>
 
-  <div class="check-column">
+  <div class="check-column" required>
     <label><input type="checkbox" name="posNote" value="無"> 無</label>
     <label><input type="checkbox" name="posNote" value="玻璃貼加購"> 玻璃貼加購</label>
     <label><input type="checkbox" name="posNote" value="699滿額品"> 699滿額品</label>
@@ -550,182 +550,181 @@ label{
   <!-- 全門市 -->
   <div class="store-row">
     <div class="store-name">全門市</div>
-    <select class="store-select">
+    <select class="store-select" required>
       <option value="no">無</option>
       <option value="yes">有</option>
     </select>
 
-   <select id="stock-box" class="stock-box" style="display:none;"></select>
-  </div>
+   <select class="stock-box" style="display:none;"></select>
 
   <!-- 西區門市 -->
   <div class="store-row">
     <div class="store-name">西區門市</div>
-    <select class="store-select" >
+    <select class="store-select" required>
       <option value="no">無</option>
       <option value="yes">有</option>
     </select>
 
-    <select id="stock-box" class="stock-box" style="display:none;"></select>
+    <select class="stock-box" style="display:none;"></select>
   </div>
 
   <!-- 大里門市 -->
   <div class="store-row">
     <div class="store-name">大里門市</div>
-    <select class="store-select" >
+    <select class="store-select" required>
       <option value="no">無</option>
       <option value="yes">有</option>
     </select>
 
-    <select id="stock-box" class="stock-box" style="display:none;"></select>
+    <select class="stock-box" style="display:none;"></select>
   </div>
 
   <!-- 斗六門市 -->
   <div class="store-row">
     <div class="store-name">斗六門市</div>
-    <select class="store-select">
+    <select class="store-select" required>
       <option value="no">無</option>
       <option value="yes">有</option>
     </select>
 
-    <select id="stock-box" class="stock-box" style="display:none;"></select>
+    <select class="stock-box" style="display:none;"></select>
   </div>
   <!-- 大埔門市 -->
   <div class="store-row">
     <div class="store-name">大埔門市</div>
-    <select class="store-select">
+    <select class="store-select" required>
       <option value="no">無</option>
       <option value="yes">有</option>
     </select>
 
-    <select id="stock-box" class="stock-box" style="display:none;"></select>
+   <select class="stock-box" style="display:none;"></select>
   </div>
   <!-- 漢口門市 -->
   <div class="store-row">
     <div class="store-name">漢口門市</div>
-    <select class="store-select">
+    <select class="store-select" required>
       <option value="no">無</option>
       <option value="yes">有</option>
     </select>
 
-    <select id="stock-box" class="stock-box" style="display:none;"></select>
+    <select class="stock-box" style="display:none;"></select>
   </div>
    <!-- 太平門市 -->
   <div class="store-row">
     <div class="store-name">太平門市</div>
-    <select class="store-select">
+    <select class="store-select" required>
       <option value="no">無</option>
       <option value="yes">有</option>
     </select>
 
-    <select id="stock-box" class="stock-box" style="display:none;"></select>
+    <select class="stock-box" style="display:none;"></select>
   </div>
 
   <!-- 松竹門市 -->
   <div class="store-row">
     <div class="store-name">松竹門市</div>
-    <select class="store-select">
+    <select class="store-select" required>
       <option value="no">無</option>
       <option value="yes">有</option>
     </select>
 
-    <select id="stock-box" class="stock-box" style="display:none;"></select>
+    <select class="stock-box" style="display:none;"></select>
   </div>
    <!-- 東山門市 -->
   <div class="store-row">
     <div class="store-name">東山門市</div>
-    <select class="store-select">
+    <select class="store-select" required>
       <option value="no">無</option>
       <option value="yes">有</option>
     </select>
 
-    <select id="stock-box" class="stock-box" style="display:none;"></select>
+    <select class="stock-box" style="display:none;"></select>
   </div>
 
    <!-- 員林門市 -->
   <div class="store-row">
     <div class="store-name">員林門市</div>
-    <select class="store-select">
+    <select class="store-select" required>
       <option value="no">無</option>
       <option value="yes">有</option>
     </select>
 
-    <select id="stock-box" class="stock-box" style="display:none;"></select>
+   <select class="stock-box" style="display:none;"></select>
   </div>
 
   <!-- 美村南門市 -->
   <div class="store-row">
     <div class="store-name">美村南</div>
-    <select class="store-select">
+    <select class="store-select" required>
       <option value="no">無</option>
       <option value="yes">有</option>
     </select>
 
-    <select id="stock-box" class="stock-box" style="display:none;"></select>
+   <select class="stock-box" style="display:none;"></select>
   </div>
   <!-- 烏日門市 -->
   <div class="store-row">
     <div class="store-name">烏日門市</div>
-    <select class="store-select">
+    <select class="store-select" required>
       <option value="no">無</option>
       <option value="yes">有</option>
     </select>
 
-    <select id="stock-box" class="stock-box" style="display:none;"></select>
+    <select class="stock-box" style="display:none;"></select>
   </div>
   
   <!-- 北平門市 -->
   <div class="store-row">
     <div class="store-name">北平門市</div>
-    <select class="store-select">
+    <select class="store-select" required>
       <option value="no">無</option>
       <option value="yes">有</option>
     </select>
 
-    <select id="stock-box" class="stock-box" style="display:none;"></select>
+    <select class="stock-box" style="display:none;"></select>
   </div>
 
    <!-- 黎明門市 -->
   <div class="store-row">
     <div class="store-name">黎明門市</div>
-    <select class="store-select">
+    <select class="store-select" required>
       <option value="no">無</option>
       <option value="yes">有</option>
     </select>
 
-    <select id="stock-box" class="stock-box" style="display:none;"></select>
+    <select class="stock-box" style="display:none;"></select>
   </div>
 
   <!-- 精誠門市 -->
   <div class="store-row">
     <div class="store-name">精誠門市</div>
-    <select class="store-select">
+    <select class="store-select" required>
       <option value="no">無</option>
       <option value="yes">有</option>
     </select>
 
-    <select id="stock-box" class="stock-box" style="display:none;"></select>
+   <select class="stock-box" style="display:none;"></select>
   </div>
 
   <!-- 精武東 -->
   <div class="store-row">
     <div class="store-name">精武東</div>
-    <select class="store-select">
+    <select class="store-select" required>
       <option value="no">無</option>
       <option value="yes">有</option>
     </select>
 
-    <select id="stock-box" class="stock-box" style="display:none;"></select>
+    <select class="stock-box" style="display:none;"></select>
   </div>
   <!-- 大雅門市 -->
   <div class="store-row">
     <div class="store-name">大雅門市</div>
-    <select class="store-select">
+    <select class="store-select" required>
       <option value="no">無</option>
       <option value="yes">有</option>
     </select>
 
-    <select id="stock-box" class="stock-box" style="display:none;"></select>
+   <select class="stock-box" style="display:none;"></select>
   </div>
 
 
@@ -745,28 +744,99 @@ document.getElementById("vendorType").addEventListener("change", function () {
   const newBox = document.getElementById("newVendorBox");
   const oldBox = document.getElementById("oldVendorBox");
 
-  newBox.style.display = (type === "new") ? "block" : "none";
-  oldBox.style.display = (type === "old") ? "block" : "none";
+  const newInput = document.getElementById("newVendor");
+  const oldInput = document.getElementById("oldVendor");
+
+  if (type === "new") {
+    newBox.style.display = "block";
+    oldBox.style.display = "none";
+
+    newInput.required = true;
+    oldInput.required = false;
+    oldInput.value = "";
+  } else if (type === "old") {
+    newBox.style.display = "none";
+    oldBox.style.display = "block";
+
+    newInput.required = false;
+    oldInput.required = true;
+    newInput.value = "";
+  }
 });
 
 
 /* ========= 同步設定「其他」 ========= */
 document.getElementById("syncOtherCheck").addEventListener("change", function () {
-  document.getElementById("syncOtherBox").style.display =
-    this.checked ? "block" : "none";
+  const box = document.getElementById("syncOtherBox");
+  const input = document.getElementById("syncOther");
+
+  box.style.display = this.checked ? "block" : "none";
+  input.required = this.checked;
 });
 
 
 /* ========= POS備註「其他」 ========= */
 document.getElementById("posOtherCheck").addEventListener("change", function () {
-  document.getElementById("posOtherBox").style.display =
-    this.checked ? "block" : "none";
+  const box = document.getElementById("posOtherBox");
+  const input = document.getElementById("posOther");
+
+  box.style.display = this.checked ? "block" : "none";
+  input.required = this.checked;
 });
+
+
+/* ========= 安全庫存 ========= */
+document.addEventListener("DOMContentLoaded", function () {
+
+  // 產生 1~100
+  document.querySelectorAll(".stock-box").forEach(select => {
+    select.innerHTML = '<option value="">請選安全庫存量</option>';
+    for (let i = 1; i <= 100; i++) {
+      const opt = document.createElement("option");
+      opt.value = i;
+      opt.textContent = i;
+      select.appendChild(opt);
+    }
+  });
+
+  // 顯示控制 + required
+  document.querySelectorAll(".store-select").forEach(select => {
+    select.addEventListener("change", function () {
+      const row = this.closest(".store-row");
+      const stockBox = row.querySelector(".stock-box");
+
+      if (this.value === "yes") {
+        stockBox.style.display = "inline-block";
+        stockBox.required = true;
+      } else {
+        stockBox.style.display = "none";
+        stockBox.required = false;
+        stockBox.value = "";
+      }
+    });
+  });
+
+});
+
+
+/* ========= checkbox 驗證 ========= */
+function checkGroupRequired(name, message){
+  const checked = document.querySelectorAll(`input[name="${name}"]:checked`);
+  if (checked.length === 0) {
+    alert(message);
+    return false;
+  }
+  return true;
+}
 
 
 /* ========= 送出 ========= */
 document.getElementById("form").addEventListener("submit", function (e) {
   e.preventDefault();
+
+  // ⭐ checkbox 必填
+  if (!checkGroupRequired("sync", "請選擇保固設定")) return;
+  if (!checkGroupRequired("posNote", "請選擇POS備註")) return;
 
   const data = {
     code: document.getElementById("code").value,
@@ -792,7 +862,14 @@ document.getElementById("form").addEventListener("submit", function (e) {
     syncOther: document.getElementById("syncOther").value || "",
 
     posNote: [...document.querySelectorAll("input[name='posNote']:checked")].map(x => x.value),
-    posOther: document.getElementById("posOther").value || ""
+    posOther: document.getElementById("posOther").value || "",
+
+    // ⭐ 安全庫存
+    stores: [...document.querySelectorAll(".store-row")].map(row => ({
+      store: row.querySelector(".store-name").innerText,
+      enable: row.querySelector(".store-select").value,
+      stock: row.querySelector(".stock-box").value || ""
+    }))
   };
 
   fetch(API_URL, {
@@ -803,39 +880,15 @@ document.getElementById("form").addEventListener("submit", function (e) {
     alert("送出成功");
     document.getElementById("form").reset();
 
-    // reset hidden
+    // reset UI
     document.getElementById("newVendorBox").style.display = "none";
     document.getElementById("oldVendorBox").style.display = "none";
     document.getElementById("syncOtherBox").style.display = "none";
     document.getElementById("posOtherBox").style.display = "none";
-  });
-});
 
-document.addEventListener("DOMContentLoaded", function () {
-
-  // 產生1~100
-  document.querySelectorAll(".stock-box").forEach(select => {
-    select.innerHTML = '<option value="">請選安全庫存量</option>';
-    for (let i = 1; i <= 100; i++) {
-      const opt = document.createElement("option");
-      opt.value = i;
-      opt.textContent = i;
-      select.appendChild(opt);
-    }
-  });
-
-  // 控制顯示
-  document.querySelectorAll(".store-select").forEach(select => {
-    select.addEventListener("change", function () {
-      const row = this.closest(".store-row");
-      const stockBox = row.querySelector(".stock-box");
-
-      if (this.value === "yes") {
-        stockBox.style.display = "inline-block";
-      } else {
-        stockBox.style.display = "none";
-        stockBox.value = "";
-      }
+    document.querySelectorAll(".stock-box").forEach(el=>{
+      el.style.display = "none";
+      el.required = false;
     });
   });
 
