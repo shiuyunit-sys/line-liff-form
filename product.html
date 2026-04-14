@@ -124,6 +124,12 @@ label{
 .stock-box{
   width:180px;
 }  
+
+.required::before {
+  content: "* ";
+  color: red;
+  font-weight: bold;
+}  
 </style>
 
 </head>
@@ -133,31 +139,31 @@ label{
 
 <form id="form">
 
-商品產編：
-<input type="text" id="code" required>
+<label class="required">商品產編：</label>
+<input type="text" id="code" >
 
-商品名稱（最多37字）：
+<label class="required">商品名稱（最多37字）：</label>
 <input type="text" id="name" maxlength="37" required>
 
-商品顏色（用 / 分隔）：
+<label class="required">商品顏色（用 / 分隔）：</label>
 <input type="text" id="color">
 
-成本：
+<label class="required">成本：</label>
 <input type="number" id="cost" required>
 
-重量：
+<label class="required">重量：</label>
 <input type="number" id="weight" required>
 
 折數：
 <input type="number" id="discount">
 
-售價(含帶貼)：
+<label class="required">售價(含帶貼)：</label>
 <input type="number" id="price1" required>
 
-售價(不含帶貼)：
+<label class="required">售價(不含帶貼)：</label>
 <input type="number" id="price2" required>
 
-廠商別：
+<label class="required">廠商別：</label>
 <select id="vendorType" required>
   <option value="">請選擇</option>
   <option value="new">新廠商</option>
@@ -177,7 +183,7 @@ label{
 </div>
 <br>
 
-商品狀態：
+<label class="required">商品狀態：</label>
 <select id="status" required>
   <option value="正常品">正常品</option>
   <option value="限量1">限量1</option>
@@ -192,7 +198,7 @@ label{
   <option value="網路2">網路2</option>
 </select>
 
-商品大類：
+<label class="required">商品大類：</label>
 <select id="category1" required>
   <option value="A-手機殼">A (手機殼)</option>
   <option value="E-線材">E (線材)</option>
@@ -224,7 +230,7 @@ label{
   <option value="Z-教育訓練">Z (教育訓練)</option>
 </select>
 
-商品中類：
+<label class="required">商品中類：</label>
 <select id="category2" required>
   <option value="AA-正常品">AA (正常品)</option>
   <option value="AC-預購品">AC (預購品)</option>
@@ -243,7 +249,7 @@ label{
   <option value="Z-教育訓練">Z (教育訓練)</option>
 </select>
 
-商品小類：
+<label class="required">商品小類：</label>
 <select id="category3" required>
 
   <option value="無">無</option>
@@ -421,7 +427,7 @@ label{
 
 </select>
 
-商品細類：
+<label class="required">商品細類：</label>
 <select id="category4" required>
 
   <option value="無">無</option>
@@ -502,7 +508,7 @@ label{
 
 </select>
 <div class="box" >
-  <div class="title">同步設定TMS+POS保固+備註</div>
+  <div class="title"><label class="required">同步設定TMS+POS保固+備註</label></div>
 
   <div class="check-column" required>
     <label><input type="checkbox" name="sync" value="無"> 無</label>
@@ -526,7 +532,7 @@ label{
 
 
 <div class="box">
-  <div class="title">POS備註提醒</div>
+  <div class="title"><label class="required">POS備註提醒</label></div>
 
   <div class="check-column" required>
     <label><input type="checkbox" name="posNote" value="無"> 無</label>
@@ -545,7 +551,7 @@ label{
 </div>
 
 <div class="box">
-  <div class="title">門市安全量設定</div>
+  <div class="title"><label class="required">門市安全量設定</label></div>
 
   <!-- 全門市 -->
   <div class="store-row">
