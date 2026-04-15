@@ -902,14 +902,6 @@ document.getElementById("form").addEventListener("submit", function (e) {
   e.preventDefault();
 
   if (!validateForm()) return;
-  const btn = document.querySelector("button");
-  const loading = document.getElementById("loadingText");
-
-  // 🔥 顯示 loading
-  btn.disabled = true;
-  btn.innerText = "送出中...";
-  loading.style.display = "block";
-
 
   const data = {
     code: document.getElementById("code").value,
@@ -947,37 +939,35 @@ document.getElementById("form").addEventListener("submit", function (e) {
 
   fetch(API_URL, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
     body: JSON.stringify(data)
   })
-  .then(async (res) => {
-    const text = await res.text();
-
-    try {
-      return JSON.parse(text);
-    } catch (e) {
-      throw new Error("GAS回傳不是JSON：" + text);
-    }
-  })
+  .then(res => res.json())   // ✅ 先解析成 JSON
   .then(res => {
+    console.log("GAS 回應:", res); // ✅ 確認回應內容
+
     if (res.status === "success") {
       alert("送出成功");
+
       document.getElementById("form").reset();
+
+      newVendorBox.style.display = "none";
+      oldVendorBox.style.display = "none";
+      syncOtherBox.style.display = "none";
+      posOtherBox.style.display = "none";
+
+      document.querySelectorAll(".stock-box").forEach(el => {
+        el.style.display = "none";
+        el.required = false;
+        el.value = "";
+      });
+
     } else {
-      alert("送出失敗：" + (res.message || "no message"));
+      alert("送出失敗：" + res.message);
     }
   })
   .catch(err => {
     console.error(err);
-    alert("系統錯誤");
-  })
-  .finally(() => {
-    // 🔥 還原按鈕
-    btn.disabled = false;
-    btn.innerText = "送出";
-    loading.style.display = "none";
+    alert("系統錯誤，請稍後再試");
   });
 });
 </script>
