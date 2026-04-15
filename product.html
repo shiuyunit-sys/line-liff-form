@@ -525,7 +525,15 @@ label{
     <label><input type="checkbox" name="sync" value="保固客需自行與原廠聯絡"> 保固客需自行與原廠聯絡</label>
     <label><input type="checkbox" name="sync" value="其他" id="syncOtherCheck"> 其他</label>
   </div>
+  <div id="promoDateBox" style="display:none;">
+  <div class="title">活動期間</div>
 
+  <label>開始日期：</label>
+  <input type="date" id="startDate">
+
+  <label>結束日期：</label>
+  <input type="date" id="endDate">
+</div>
   <div id="syncOtherBox" style="display:none;">
     其他設定備註：
     <input type="text" id="syncOther">
@@ -866,6 +874,39 @@ document.getElementById("posOtherCheck").addEventListener("change", function () 
   input.required = this.checked;
 });
 
+const promoKeywords = [
+  "699滿額品",
+  "699滿額加購品",
+  "1199滿額品",
+  "1199滿額加購品"
+];
+
+document.querySelectorAll("input[name='posNote']").forEach(el => {
+  el.addEventListener("change", togglePromoDate);
+});
+
+function togglePromoDate() {
+  const checked = [...document.querySelectorAll("input[name='posNote']:checked")].map(x => x.value);
+
+  const show = checked.some(v => promoKeywords.includes(v));
+
+  const box = document.getElementById("promoDateBox");
+  const start = document.getElementById("startDate");
+  const end = document.getElementById("endDate");
+
+  if (show) {
+    box.style.display = "block";
+    start.required = true;
+    end.required = true;
+  } else {
+    box.style.display = "none";
+    start.required = false;
+    end.required = false;
+    start.value = "";
+    end.value = "";
+  }
+}
+
 /* ========= 安全庫存 ========= */
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -931,6 +972,9 @@ document.getElementById("form").addEventListener("submit", function (e) {
 
     posNote: [...document.querySelectorAll("input[name='posNote']:checked")].map(x => x.value),
     posOther: document.getElementById("posOther").value || "",
+
+    startDate: document.getElementById("startDate")?.value || "",
+    endDate: document.getElementById("endDate")?.value || "",
 
     stores: [...document.querySelectorAll(".store-row")].map(row => ({
       store: row.querySelector(".store-name").innerText,
