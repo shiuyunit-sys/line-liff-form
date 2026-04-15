@@ -1007,8 +1007,24 @@ document.getElementById("form").addEventListener("submit", function (e) {
 
     if (res.status === "success") {
       alert("送出成功");
+      togglePromoDate();
 
-      document.getElementById("form").reset();
+// 2️⃣ 安全庫存全部隱藏
+document.querySelectorAll(".store-row").forEach(row => {
+  const select = row.querySelector(".store-select");
+  const box = row.querySelector(".stock-box");
+
+  box.style.display = "none";
+  box.required = false;
+  box.value = "";
+  select.value = "no"; // reset成無
+});
+
+// 3️⃣ 保固 / POS 其他欄位
+document.getElementById("syncOtherBox").style.display = "none";
+document.getElementById("posOtherBox").style.display = "none";
+
+      /*document.getElementById("form").reset();
 
       newVendorBox.style.display = "none";
       oldVendorBox.style.display = "none";
@@ -1019,7 +1035,7 @@ document.getElementById("form").addEventListener("submit", function (e) {
         el.style.display = "none";
         el.required = false;
         el.value = "";
-      });
+      });*/
 
     } else {
       alert("送出失敗：" + res.message);
