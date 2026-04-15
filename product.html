@@ -142,13 +142,11 @@ label{
 <label class="required">商品產編：</label>
 <input type="text" id="code" >
 
-<label class="required">商品名稱（最多37字）：</label>
+<label class="required">商品名稱（最多37字-請完整寫品名EX ：iPHONE 12/12 Pro 超透防摔空壓殼）：</label>
 <input type="text" id="name" maxlength="37" required>
-<label style="font-size:11px">(請完整寫品名 EX ：iPHONE 12/12 Pro 超透防摔空壓殼)</label>
   
-<label class="required">商品顏色：</label>
+<label class="required">商品顏色：(若多顏色、樣式請用 「/ 」切分顏色，請寫中文除了F)</label>
 <input type="text" id="color">
-<label style="font-size:11px">(若多顏色、樣式請用 「/ 」切分顏色，請寫中文除了F)</label>
   
 <label class="required">成本：</label>
 <input type="number" id="cost" required>
@@ -525,15 +523,6 @@ label{
     <label><input type="checkbox" name="sync" value="保固客需自行與原廠聯絡"> 保固客需自行與原廠聯絡</label>
     <label><input type="checkbox" name="sync" value="其他" id="syncOtherCheck"> 其他</label>
   </div>
-  <div id="promoDateBox" style="display:none;">
-  <div class="title">活動期間</div>
-
-  <label>開始日期：</label>
-  <input type="date" id="startDate">
-
-  <label>結束日期：</label>
-  <input type="date" id="endDate">
-</div>
   <div id="syncOtherBox" style="display:none;">
     其他設定備註：
     <input type="text" id="syncOther">
@@ -553,7 +542,15 @@ label{
     <label><input type="checkbox" name="posNote" value="1199滿額加購品"> 1199滿額加購品</label>
     <label><input type="checkbox" name="posNote" value="其他" id="posOtherCheck"> 其他</label>
   </div>
+   <div id="promoDateBox" style="display:none;">
+  <div class="title">活動期間</div>
 
+  <label>開始日期：</label>
+  <input type="date" id="startDate">
+
+  <label>結束日期：</label>
+  <input type="date" id="endDate">
+</div>
   <div id="posOtherBox" style="display:none;">
     其他備註：
     <input type="text" id="posOther">
