@@ -941,7 +941,8 @@ document.getElementById("form").addEventListener("submit", function (e) {
     method: "POST",
     body: JSON.stringify(data)
   })
-  .then(res => {
+    .then(res => res.json())  // 先解析
+    .then(res => {
 
   if (res.status === "success") {
     alert("送出成功");
