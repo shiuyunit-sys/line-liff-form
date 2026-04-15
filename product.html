@@ -901,34 +901,34 @@ document.addEventListener("DOMContentLoaded", function () {
 document.getElementById("form").addEventListener("submit", function (e) {
   e.preventDefault();
 
-  if (!validateForm()) return; // ⭐ 核心
+  if (!validateForm()) return;
 
   const data = {
-  code: document.getElementById("code").value,
-  name: document.getElementById("name").value,
-  color: document.getElementById("color").value,
-  cost: document.getElementById("cost").value,
-  weight: document.getElementById("weight").value,
-  discount: document.getElementById("discount").value,
-  price1: document.getElementById("price1").value,
-  price2: document.getElementById("price2").value,
+    code: document.getElementById("code").value,
+    name: document.getElementById("name").value,
+    color: document.getElementById("color").value,
+    cost: document.getElementById("cost").value,
+    weight: document.getElementById("weight").value,
+    discount: document.getElementById("discount").value,
+    price1: document.getElementById("price1").value,
+    price2: document.getElementById("price2").value,
 
-  vendorType: document.getElementById("vendorType").value,
-  newVendor: document.getElementById("newVendor").value || "",
-  oldVendor: document.getElementById("oldVendor").value || "",
+    vendorType: document.getElementById("vendorType").value,
+    newVendor: document.getElementById("newVendor").value || "",
+    oldVendor: document.getElementById("oldVendor").value || "",
 
-  status: document.getElementById("status").value,
+    status: document.getElementById("status").value,
 
-  category1: document.getElementById("category1").value,
-  category2: document.getElementById("category2").value,
-  category3: document.getElementById("category3").value,
-  category4: document.getElementById("category4").value,
+    category1: document.getElementById("category1").value,
+    category2: document.getElementById("category2").value,
+    category3: document.getElementById("category3").value,
+    category4: document.getElementById("category4").value,
 
     sync: [...document.querySelectorAll("input[name='sync']:checked")].map(x => x.value),
-    syncOther: syncOther.value || "",
+    syncOther: document.getElementById("syncOther").value || "",
 
     posNote: [...document.querySelectorAll("input[name='posNote']:checked")].map(x => x.value),
-    posOther: posOther.value || "",
+    posOther: document.getElementById("posOther").value || "",
 
     stores: [...document.querySelectorAll(".store-row")].map(row => ({
       store: row.querySelector(".store-name").innerText,
@@ -941,36 +941,34 @@ document.getElementById("form").addEventListener("submit", function (e) {
     method: "POST",
     body: JSON.stringify(data)
   })
-    .then(res => res.json())  // 先解析
-    .then(res => {
+  .then(res => res.json())   // ✅ 先解析成 JSON
+  .then(res => {
+    console.log("GAS 回應:", res); // ✅ 確認回應內容
 
-  if (res.status === "success") {
-    alert("送出成功");
+    if (res.status === "success") {
+      alert("送出成功");
 
-    document.getElementById("form").reset();
+      document.getElementById("form").reset();
 
-    // UI reset
-    newVendorBox.style.display = "none";
-    oldVendorBox.style.display = "none";
-    syncOtherBox.style.display = "none";
-    posOtherBox.style.display = "none";
+      newVendorBox.style.display = "none";
+      oldVendorBox.style.display = "none";
+      syncOtherBox.style.display = "none";
+      posOtherBox.style.display = "none";
 
-    document.querySelectorAll(".stock-box").forEach(el => {
-      el.style.display = "none";
-      el.required = false;
-      el.value = "";
-    });
+      document.querySelectorAll(".stock-box").forEach(el => {
+        el.style.display = "none";
+        el.required = false;
+        el.value = "";
+      });
 
-  } else {
-    alert("送出失敗：" + res.message);
-  }
-
-})
-.catch(err => {
-  console.error(err);
-  alert("系統錯誤，請稍後再試");
-});
-
+    } else {
+      alert("送出失敗：" + res.message);
+    }
+  })
+  .catch(err => {
+    console.error(err);
+    alert("系統錯誤，請稍後再試");
+  });
 });
 </script>
 </body>
