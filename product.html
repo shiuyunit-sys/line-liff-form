@@ -989,6 +989,17 @@ document.getElementById("form").addEventListener("submit", function (e) {
 
   if (!validateForm()) return;
 
+  const submitBtn = document.querySelector("button[type='submit']");
+
+  // ✅ 防止重複點擊
+  if (submitBtn.disabled) return;
+
+  // ✅ 鎖住按鈕 + 灰色
+  submitBtn.disabled = true;
+  submitBtn.innerText = "傳送中...";
+  submitBtn.style.background = "#999";
+  submitBtn.style.cursor = "not-allowed";
+
   const data = {
     code: document.getElementById("code").value,
     name: document.getElementById("name").value,
@@ -1054,10 +1065,20 @@ document.getElementById("form").addEventListener("submit", function (e) {
     } else {
       alert("送出失敗：" + res.message);
     }
+    // ✅ 還原按鈕
+    submitBtn.disabled = false;
+    submitBtn.innerText = "送出";
+    submitBtn.style.background = "#4a90e2";
+    submitBtn.style.cursor = "pointer";
   })
   .catch(err => {
     console.error(err);
     alert("系統錯誤，請稍後再試");
+     // ✅ 還原按鈕（錯誤也要）
+    submitBtn.disabled = false;
+    submitBtn.innerText = "送出";
+    submitBtn.style.background = "#4a90e2";
+    submitBtn.style.cursor = "pointer";
   });
 });
 </script>
