@@ -557,6 +557,12 @@ label{
     <label><input type="checkbox" name="posNote" value="其他" id="posOtherCheck"> 其他</label>
   </div>
    <div id="promoDateBox" style="display:none;">
+    <div id="addPriceBox" style="display:none;">
+  <div class="title">加購金額</div>
+
+  <label>加購金額：</label>
+  <input type="number" id="addPrice" min="0">
+ </div> 
   <div class="title">活動期間</div>
 
   <label>開始日期：</label>
@@ -920,7 +926,30 @@ function togglePromoDate() {
     end.value = "";
   }
 }
+function toggleAddPrice() {
+  const checked = [...document.querySelectorAll("input[name='posNote']:checked")]
+    .map(x => x.value);
 
+  const needShow = checked.some(v =>
+    v === "699滿額加購品" || v === "1199滿額加購品"
+  );
+
+  const box = document.getElementById("addPriceBox");
+  const input = document.getElementById("addPrice");
+
+  if (needShow) {
+    box.style.display = "block";
+    input.required = true;
+  } else {
+    box.style.display = "none";
+    input.required = false;
+    input.value = "";
+  }
+}
+document.querySelectorAll("input[name='posNote']").forEach(el => {
+  el.addEventListener("change", togglePromoDate);
+  el.addEventListener("change", toggleAddPrice); // 如果你有做加購欄位
+});
 /* ========= 安全庫存 ========= */
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -986,7 +1015,7 @@ document.getElementById("form").addEventListener("submit", function (e) {
 
     posNote: [...document.querySelectorAll("input[name='posNote']:checked")].map(x => x.value),
     posOther: document.getElementById("posOther").value || "",
-
+    addPrice: document.getElementById("addPrice")?.value || "",
     startDate: document.getElementById("startDate")?.value || "",
     endDate: document.getElementById("endDate")?.value || "",
 
