@@ -586,11 +586,11 @@ label{
 
   <div class="store-control">
     <select class="store-select">
-      <option value="no">無</option>
       <option value="yes">有</option>
+      <option value="no">不設定庫存</option>
     </select>
 
-   <select id="A001" class="stock-box" style="display:none;"></select>
+   <select id="A001" class="stock-box"></select>
   </div>
 </div>
 
@@ -971,12 +971,12 @@ document.addEventListener("DOMContentLoaded", function () {
       const box = row.querySelector(".stock-box");
 
       if (this.value === "yes") {
-        box.style.display = "inline-block";
-        box.required = true;
-      } else {
-        box.style.display = "none";
-        box.required = false;
-        box.value = "";
+       box.required = true;
+       } else if (this.value === "no") {
+       box.required = false;
+       box.value = ""; // 不設定 → 清空
+       } else {
+      box.required = false;
       }
     });
   });
