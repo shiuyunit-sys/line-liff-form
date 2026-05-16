@@ -1033,6 +1033,7 @@ document.getElementById("form").addEventListener("submit", function (e) {
     addPrice: document.getElementById("addPrice")?.value || "",
     startDate: document.getElementById("startDate")?.value || "",
     endDate: document.getElementById("endDate")?.value || "",
+    Budget: document.getElementById("Budget").value || "",
 
     stores: [...document.querySelectorAll(".store-row")].map(row => ({
       store: row.querySelector(".store-name").innerText,
