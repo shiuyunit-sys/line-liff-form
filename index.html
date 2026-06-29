@@ -160,39 +160,35 @@
         <h3>二、門市服務體驗</h3>
 
         <div class="field">
-          <label class="question">對於門市消費體驗，您的整體滿意度是？</label>
+          <label class="question">經歷了這次的門市消費，您整體的滿意度是？</label>
           <div class="options">
-            <label><input type="radio" name="overallScore" value="1" required> 1</label>
-            <label><input type="radio" name="overallScore" value="2"> 2</label>
-            <label><input type="radio" name="overallScore" value="3"> 3</label>
-            <label><input type="radio" name="overallScore" value="4"> 4</label>
-            <label><input type="radio" name="overallScore" value="5"> 5</label>
+            <label><input type="radio" name="overallScore" value="5" required> 5 非常滿意</label>
+            <label><input type="radio" name="overallScore" value="4"> 4 滿意</label>
+            <label><input type="radio" name="overallScore" value="3"> 3 普通</label>
+            <label><input type="radio" name="overallScore" value="2"> 2 不滿意</label>
+            <label><input type="radio" name="overallScore" value="1"> 1 非常不滿意</label>
           </div>
         </div>
 
         <div class="field" id="lowScoreArea" style="display:none;">
-          <label class="question">請問我們在哪些方面可以再加強？（可複選）</label>
+          <label class="question">承上題，若您選擇「3分(普通)以下」，主要是因為這次在哪個環節讓您感到較不滿意？（可複選）</label>
           <label><input type="checkbox" name="improve[]" value="接待互動">接待互動（希望互動更積極或更多關注）</label>
           <label><input type="checkbox" name="improve[]" value="商品介紹">商品介紹（希望資訊能更完整或清楚）</label>
           <label><input type="checkbox" name="improve[]" value="體驗流程">體驗流程（希望有更多試用或展示機會）</label>
           <label><input type="checkbox" name="improve[]" value="服務態度">服務態度（希望能更有耐心或親切）</label>
           <label><input type="checkbox" name="improve[]" value="結帳與說明">結帳與說明（希望保固與注意事項更清楚）</label>
-          <label><input type="checkbox" name="improve[]" value="商品選擇">商品選擇（希望款式／規格有更多選擇）</label>
-          <label><input type="checkbox" name="improve[]" value="商品適配度">商品適配度（希望更容易找到適合的商品）</label>
-          <label><input type="checkbox" name="improve[]" value="價格與價值感受">價格與價值感受（期待更符合預期）</label>
+          <label><input type="checkbox" name="improve[]" value="售後關懷">售後關懷 (希望人員能主動提醒「商品使用上若有任何問題，能向誰反應或詢問」)）</label>
           <input type="text" name="improveOther" placeholder="其他">
         </div>
 
         <div class="field" id="highScoreArea" style="display:none;">
-          <label class="question">在消費過程中，讓您感覺不錯的地方？</label>
-          <label><input type="checkbox" name="good[]" value="人員親切"> 人員親切有禮</label>
-          <label><input type="checkbox" name="good[]" value="商品專業"> 商品資訊清楚，專業說明充足</label>
-          <label><input type="checkbox" name="good[]" value="體驗流程"> 提供試用/體驗商品的機會</label>
-           <label><input type="checkbox" name="good[]" value="結帳與說明"> 結帳與保固說明清楚 </label>
-           <label><input type="checkbox" name="good[]" value="沒有特別感覺"> 沒有特別感覺</label>
-           <label><input type="checkbox" name="good[]" value="商品符合需求"> 商品符合需求</label>
-           <label><input type="checkbox" name="good[]" value="價格與價值感受"> 商品價格與價值符合</label>
-           <label><input type="checkbox" name="good[]" value="商品選擇"> 商品選擇多、好比較</label>
+          <label class="question">在這次的服務過程中，門市人員的表現符合以下哪些敘述？（可複選）</label>
+          <label><input type="checkbox" name="good[]" value="人員親切">【主動迎賓】 進店時有受到親切、適度地招呼，不會感到被冷落或有壓力</label>
+          <label><input type="checkbox" name="good[]" value="商品專業">【符合需求】 人員有耐心聆聽我的需求，並精準推薦適合的商品</label>
+          <label><input type="checkbox" name="good[]" value="體驗流程">【專業體驗】 商品介紹專業清晰，並有提供充足的試用、體驗或展示機會</label>
+           <label><input type="checkbox" name="good[]" value="結帳與說明">【服務態度】 整體消費過程中都具有耐心且親切的服務 </label>
+           <label><input type="checkbox" name="good[]" value="沒有特別感覺">【安心結帳】 結帳時，保固內容與注意事項說明得非常清楚</label>
+           <label><input type="checkbox" name="good[]" value="商品符合需求">【售後關懷】 結帳後，人員有主動提醒「商品使用若有任何問題，都可以隨時反應或回門市詢問」。</label>
           <input type="text" name="goodOther" placeholder="其他">
         </div>
 
@@ -205,7 +201,7 @@
           </div>
         </div>
 
-        <div class="field">
+        <div class="field" style="display:none;">
           <label class="question">基於本次的體驗，若未來有需求，您願意再次讓我們為您服務？（1＝完全不會，5＝非常願意）</label>
           <div class="options">
             <label><input type="radio" name="recommend" value="1" required> 1</label>
@@ -219,16 +215,16 @@
         <h3>三、開放式回饋</h3>
 
         <div class="field">
-          <label class="question">1.本次服務中，有沒有讓您印象較深刻的地方？</label>
+          <label class="question">關於這次的服務，有沒有哪位服務人員讓您印象深刻？或是有任何想對我們說的話？</label>
           <textarea name="open1" rows="3"></textarea>
         </div>
 
-        <div class="field">
+        <div class="field" style="display:none;">
           <label class="question">2.未來您希望我們在哪些地方做得更好？</label>
           <textarea name="open2" rows="3"></textarea>
         </div>
 
-        <div class="note">小提醒：問卷完成後，購物金將於下週三統一發送，謝謝您的耐心等候😊您的回覆僅作為內部改善使用</div>
+        <div class="note">感謝您完成問卷😊您的寶貴意見對我們非常重要，所有回覆僅作為內部改善與服務優化使用，謝謝您的支持！</div>
 
         <button id="submitBtn" type="submit" class="btn">送出問卷</button>
 
