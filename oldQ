@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>顧客滿意度問卷</title>
+
+  <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+
+  <style>
+    :root{
+      --bg:#f6f7fb;
+      --card:#ffffff;
+      --accent:#0057b8;
+      --muted:#667085;
+      --success:#0f9d58;
+      --radius:14px;
+      font-family:"Noto Sans TC","Microsoft JhengHei",system-ui;
+    }
+
+    html,body{
+      margin:0;
+      background:linear-gradient(180deg,#eef2ff 0%,var(--bg) 100%);
+    }
+
+    .wrap{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+    }
+
+    .card{
+      width:100%;
+      max-width:560px;
+      background:#fff;
+      border-radius:14px;
+      box-shadow:0 10px 30px rgba(16,24,40,.08);
+      padding:24px;
+    }
+
+    h1{margin:0 0 6px;font-size:20px}
+    p.lead{margin:0 0 18px;color:var(--muted);font-size:14px}
+
+    form{display:flex;flex-direction:column;gap:18px}
+
+    .field{display:flex;flex-direction:column;gap:8px}
+    label.question{font-weight:600;font-size:14px}
+
+    .options{display:flex;gap:10px;flex-wrap:wrap}
+
+    textarea,select,input[type="date"]{
+      padding:10px;
+      border-radius:8px;
+      border:1px solid rgba(0,0,0,.15);
+      font-size:14px;
+    }
+
+    .btn{
+      padding:12px;
+      border-radius:10px;
+      border:none;
+      background:var(--accent);
+      color:#fff;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    .btn[disabled]{opacity:.6}
+
+    .note{font-size:12px;color:var(--muted)}
+
+    .done{
+      display:none;
+      text-align:center;
+      padding:18px;
+      border-radius:12px;
+      border:1px solid rgba(15,157,88,.25);
+      background:rgba(15,157,88,.06);
+    }
+    .field label:not(.question){
+     display: flex;
+     align-items: flex-start; /* checkbox 與文字頂端對齊 */
+     gap: 8px;
+     line-height: 1.5;
+   }
+
+    .field label input[type="checkbox"]{
+    margin-top: 3px; /* 微調對齊第一行文字 */
+   }
+
+    .done h3{margin:0;color:var(--success)}
+  </style>
+</head>
+
+<body>
+
+<div class="wrap">
+  <div class="card">
+
+    <h1>顧客滿意度問卷</h1>
+    <p class="lead">請花 1 分鐘回答幾個問題，您的回饋對我們很重要。</p>
+
+    <div id="status">正在載入...</div>
+
+    <!-- 已填寫 -->
+    <div id="doneArea" class="done">
+      <h3>感謝您完成問卷！</h3>
+    </div>
+
+    <!-- 問卷 -->
+    <div id="surveyArea" style="display:none;">
+      <form id="surveyForm">
+
+        <input type="hidden" name="UID" id="UID">
+
+        <h3>一、基本資料</h3>
+
+        <div class="field">
+          <label class="question">1. 您的性別</label>
+          <select name="gender" required>
+            <option value="">請選擇</option>
+            <option>男</option>
+            <option>女</option>
+            <option>不便透露</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="question">2. 您的年齡</label>
+          <select name="ageRange" required>
+            <option value="">請選擇</option>
+            <option>20歲以下</option>
+            <option>21–30歲</option>
+            <option>31–40歲</option>
+            <option>41–50歲</option>
+            <option>51歲以上</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="question">3. 本次消費的門市</label>
+          <select name="store" required>
+            <option value="">請選擇</option>
+            <option>西區</option><option>大里</option><option>斗六</option>
+            <option>大埔</option><option>漢口</option><option>太平</option>
+            <option>松竹</option><option>東山</option><option>員林</option>
+            <option>美村南</option><option>烏日</option><option>北平</option>
+            <option>黎明</option><option>精誠</option><option>精武東</option>
+            <option>大雅</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="question">4. 本次消費日期</label>
+          <input type="date" name="purchaseDate" required>
+        </div>
+
+        <h3>二、門市服務體驗</h3>
+
+        <div class="field">
+          <label class="question">經歷了這次的門市消費，您整體的滿意度是？</label>
+          <div class="options">
+            <label><input type="radio" name="overallScore" value="5" required> 5 非常滿意</label>
+            <label><input type="radio" name="overallScore" value="4"> 4 滿意</label>
+            <label><input type="radio" name="overallScore" value="3"> 3 普通</label>
+            <label><input type="radio" name="overallScore" value="2"> 2 不滿意</label>
+            <label><input type="radio" name="overallScore" value="1"> 1 非常不滿意</label>
+          </div>
+        </div>
+
+        <div class="field" id="lowScoreArea" style="display:none;">
+          <label class="question">您選擇「3分(普通)以下」，主要是因為這次在哪個環節讓您感到較不滿意？（可複選）</label>
+          <label><input type="checkbox" name="improve[]" value="接待互動">接待互動（希望互動更積極或更多關注）</label>
+          <label><input type="checkbox" name="improve[]" value="商品介紹">商品介紹（希望資訊能更完整或清楚）</label>
+          <label><input type="checkbox" name="improve[]" value="體驗流程">體驗流程（希望有更多試用或展示機會）</label>
+          <label><input type="checkbox" name="improve[]" value="服務態度">服務態度（希望能更有耐心或親切）</label>
+          <label><input type="checkbox" name="improve[]" value="結帳與說明">結帳與說明（希望保固與注意事項更清楚）</label>
+          <label><input type="checkbox" name="improve[]" value="售後關懷">售後關懷 (希望人員能主動提醒「商品使用上若有任何問題，能向誰反應或詢問」)）</label>
+          <input type="text" name="improveOther" placeholder="其他">
+        </div>
+
+        <div class="field" id="highScoreArea" style="display:none;">
+          <label class="question">在這次的服務過程中，門市人員的表現符合以下哪些敘述？（可複選）</label>
+          <label><input type="checkbox" name="good[]" value="主動迎賓">【主動迎賓】 進店時有受到親切、適度地招呼，不會感到被冷落或有壓力</label>
+          <label><input type="checkbox" name="good[]" value="符合需求">【符合需求】 人員有耐心聆聽我的需求，並精準推薦適合的商品</label>
+          <label><input type="checkbox" name="good[]" value="專業體驗">【專業體驗】 商品介紹專業清晰，並有提供充足的試用、體驗或展示機會</label>
+           <label><input type="checkbox" name="good[]" value="服務態度">【服務態度】 整體消費過程中都具有耐心且親切的服務 </label>
+           <label><input type="checkbox" name="good[]" value="安心結帳">【安心結帳】 結帳時，保固內容與注意事項說明得非常清楚</label>
+           <label><input type="checkbox" name="good[]" value="售後關懷">【售後關懷】 結帳後，人員有主動提醒「商品使用若有任何問題，都可以隨時反應或回門市詢問」。</label>
+          <input type="text" name="goodOther" placeholder="其他">
+        </div>
+
+        <div class="field" style="display:none;">
+          <label class="question">門市人員是否有告知商品使用如有任何問題都可以向我們反應？</label>
+          <div class="options">
+            <label><input type="radio" name="Warranty" value="是"> 是</label>
+            <label><input type="radio" name="Warranty" value="否"> 否</label>
+            <label><input type="radio" name="Warranty" value="不清楚"> 不清楚</label>
+          </div>
+        </div>
+
+        <div class="field" style="display:none;">
+          <label class="question">基於本次的體驗，若未來有需求，您願意再次讓我們為您服務？（1＝完全不會，5＝非常願意）</label>
+          <div class="options">
+            <label><input type="radio" name="recommend" value="1"> 1</label>
+            <label><input type="radio" name="recommend" value="2"> 2</label>
+            <label><input type="radio" name="recommend" value="3"> 3</label>
+            <label><input type="radio" name="recommend" value="4"> 4</label>
+            <label><input type="radio" name="recommend" value="5"> 5</label>
+          </div>
+        </div>
+
+        <h3>三、開放式回饋</h3>
+
+        <div class="field">
+          <label class="question">關於這次的服務，有沒有哪位服務人員讓您印象深刻？或是有任何想對我們說的話？</label>
+          <textarea name="open1" rows="3"></textarea>
+        </div>
+
+        <div class="field" style="display:none;">
+          <label class="question">2.未來您希望我們在哪些地方做得更好？</label>
+          <textarea name="open2" rows="3"></textarea>
+        </div>
+
+        <div class="note">感謝您完成問卷😊您的寶貴意見對我們非常重要，所有回覆僅作為內部改善與服務優化使用，謝謝您的支持！</div>
+
+        <button id="submitBtn" type="submit" class="btn">送出問卷</button>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+// 舊會員 Apps Script 部署完成後，請將下方網址替換成「舊會員」專用部署網址
+const GAS_URL = "請替換成舊會員AppsScript部署網址";
+
+document.addEventListener("DOMContentLoaded", async () => {
+  try{
+    await liff.init({ liffId: "2001230327-l7YbvL9o" });
+    const profile = await liff.getProfile();
+    document.getElementById("UID").value = profile.userId;
+
+    // 舊會員允許每次消費後再次填寫：不呼叫 GET UID 重複檢查
+    document.getElementById("status").style.display = "none";
+    document.getElementById("surveyArea").style.display = "block";
+
+    const lowScoreArea = document.getElementById("lowScoreArea");
+const highScoreArea = document.getElementById("highScoreArea");
+
+function clearCheckboxes(selector) {
+  document.querySelectorAll(selector).forEach(cb => {
+    cb.checked = false;
+  });
+}
+
+document.querySelectorAll('input[name="overallScore"]').forEach(r => {
+  r.addEventListener("change", () => {
+    const v = Number(r.value);
+
+    if (v <= 3) {
+      // 顯示缺點、清空亮點
+      lowScoreArea.style.display = "block";
+      highScoreArea.style.display = "none";
+      clearCheckboxes('input[name="good[]"]');
+      document.querySelector('input[name="goodOther"]').value = "";
+    } else {
+      // 顯示亮點、清空缺點
+      lowScoreArea.style.display = "none";
+      highScoreArea.style.display = "block";
+      clearCheckboxes('input[name="improve[]"]');
+      document.querySelector('input[name="improveOther"]').value = "";
+    }
+  });
+});
+
+  } catch (e) {
+    document.getElementById("status").textContent = "載入失敗，請稍後再試";
+    console.error(e);
+  }
+});
+
+document.getElementById("surveyForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const submitBtn = document.getElementById("submitBtn");
+  const surveyArea = document.getElementById("surveyArea");
+  const doneArea = document.getElementById("doneArea");
+
+  // 🔴 基本必填檢查（瀏覽器原生）
+  if (!e.target.checkValidity()) {
+    e.target.reportValidity();
+    return;
+  }
+
+  // 🔴 依分數檢查低分 / 高分區塊
+  const scoreEl = document.querySelector('input[name="overallScore"]:checked');
+  if (!scoreEl) {
+    alert("請選擇整體滿意度");
+    return;
+  }
+
+  const score = Number(scoreEl.value);
+
+  if (score <= 3) {
+    const checked = document.querySelectorAll(
+      '#lowScoreArea input[type="checkbox"]:checked'
+    );
+    if (checked.length === 0) {
+      alert("請至少選擇一項需要加強的地方");
+      return;
+    }
+  }
+
+  if (score >= 4) {
+    const checked = document.querySelectorAll(
+      '#highScoreArea input[type="checkbox"]:checked'
+    );
+    if (checked.length === 0) {
+      alert("請至少選擇一項滿意的地方");
+      return;
+    }
+  }
+
+  // 🔴 通過檢查後才鎖定按鈕
+  submitBtn.disabled = true;
+  submitBtn.textContent = "送出中…";
+
+  try {
+    await fetch(GAS_URL, {
+      method: "POST",
+      body: new FormData(e.target)
+    });
+  } catch (err) {
+    // 不顯示錯誤，避免誤判
+    console.warn("fetch 非致命錯誤", err);
+  }
+
+  // 維持原本送出後畫面邏輯（後續可配合 Apps Script 改為確認成功後才顯示）
+  surveyArea.style.display = "none";
+  doneArea.style.display = "block";
+});
+</script>
+
+</body>
+</html>
