@@ -278,8 +278,9 @@ document.querySelectorAll('input[name="overallScore"]').forEach(r => {
 });
 
   } catch (e) {
-    document.getElementById("status").textContent = "載入失敗，請稍後再試";
-    console.error(e);
+  document.getElementById("status").textContent =
+    "載入失敗：" + (e.message || String(e));
+  console.error("問卷載入錯誤：", e);
   }
 });
 
