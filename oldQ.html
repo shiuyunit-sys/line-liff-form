@@ -114,6 +114,7 @@
       <form id="surveyForm">
 
         <input type="hidden" name="UID" id="UID">
+        <input type="hidden" name="memberType" value="old">
 
         <h3>一、基本資料</h3>
 
@@ -235,7 +236,7 @@
 
 <script>
 // 舊會員 Apps Script 部署完成後，請將下方網址替換成「舊會員」專用部署網址
-const GAS_URL = "請替換成舊會員AppsScript部署網址";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbzCphcqbEMUOcioq-owF9Q5jbtHvYRCAvxOm3Qb3lZLJd8ULYcrrFWhwA_CmIibtHKm/exec";
 
 document.addEventListener("DOMContentLoaded", async () => {
   try{
